@@ -14,7 +14,7 @@ import modelo.dto.TemaDTO;
  *
  * @author ivan
  */
-public class CursoFACADE extends GenericFACADE<CursoDTO, Integer> {
+public class CursoFACADE extends BaseFACADE<CursoDTO, Integer> {
     
     /**
      * Obtener los temas de un curso

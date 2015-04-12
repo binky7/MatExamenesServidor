@@ -15,7 +15,7 @@ import org.hibernate.Transaction;
  *
  * @author Jesus Donaldo
  */
-public class TemaDAO extends GenericDAO<TemaDTO, Integer> {
+public class TemaDAO extends BaseDAO<TemaDTO, Integer> {
 
     //Obtener todos los temas que no pertenecen a un curso....
     private final String GET_TEMAS_SIN_ASIGNAR = "SELECT DISTINCT t2 FROM " +

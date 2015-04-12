@@ -11,7 +11,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
-import remoteAccess.DAOInterface;
 
 /**
  *
@@ -19,8 +18,7 @@ import remoteAccess.DAOInterface;
  * @param <T>
  * @param <ID>
  */
-public class GenericDAO<T, ID extends Serializable> 
-implements DAOInterface<T, ID> {
+public class BaseDAO<T, ID extends Serializable> {
     
     protected Session getSession() {
         Session session = null;
@@ -32,7 +30,6 @@ implements DAOInterface<T, ID> {
         return session;
     }
 
-    @Override
     public List<T> obtenerTodos(Class<T> clazz) {
         
         Session s = getSession();
@@ -63,7 +60,6 @@ implements DAOInterface<T, ID> {
         return entidades;
     }
     
-    @Override
     public ID insertar(T entidad) {  
         
         Session s = getSession();
@@ -93,7 +89,6 @@ implements DAOInterface<T, ID> {
         return id;
     }
     
-    @Override
     public boolean modificar(T entidad) {  
         
         Session s = getSession();
@@ -131,7 +126,6 @@ implements DAOInterface<T, ID> {
         return ok;
     }
     
-    @Override
     public boolean eliminar(T entidad) {  
         
         Session s = getSession();

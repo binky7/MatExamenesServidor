@@ -15,23 +15,23 @@ import modelo.dao.DAOServiceLocator;
  * @param <T>
  * @param <ID>
  */
-public class GenericFACADE<T, ID extends Serializable> {
+public class BaseFACADE<T, ID extends Serializable> {
     
     public List<T> obtenerEntidades(Class<T> clazz) {
         
-        return DAOServiceLocator.getGenericDAO().obtenerTodos(clazz);
+        return DAOServiceLocator.getBaseDAO().obtenerTodos(clazz);
     }
     
     public ID guardarEntidad(T entidad) {
-        return (ID) DAOServiceLocator.getGenericDAO().insertar(entidad);
+        return (ID) DAOServiceLocator.getBaseDAO().insertar(entidad);
     }
     
     public boolean modificarEntidad(T entidad) {
-        return DAOServiceLocator.getGenericDAO().modificar(entidad);
+        return DAOServiceLocator.getBaseDAO().modificar(entidad);
     }
     
     public boolean eliminarEntidad(T entidad) {
-        return DAOServiceLocator.getGenericDAO().eliminar(entidad);
+        return DAOServiceLocator.getBaseDAO().eliminar(entidad);
     }
     
 }

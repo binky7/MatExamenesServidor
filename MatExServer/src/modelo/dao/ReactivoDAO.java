@@ -11,6 +11,6 @@ import modelo.dto.ReactivoDTO;
  *
  * @author Jesus Donaldo
  */
-public class ReactivoDAO extends GenericDAO<ReactivoDTO, Integer> {
+public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
     
 }

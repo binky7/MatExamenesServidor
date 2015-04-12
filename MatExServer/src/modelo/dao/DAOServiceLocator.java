@@ -17,7 +17,7 @@ public class DAOServiceLocator {
     private static ReactivoDAO reactivoDAO;
     private static TemaDAO temaDAO;
     private static UsuarioDAO usuarioDAO;
-    private static GenericDAO genericDAO;
+    private static BaseDAO baseDAO;
     
     public static CursoDAO getCursoDAO() {
         if(cursoDAO == null) {
@@ -67,11 +67,11 @@ public class DAOServiceLocator {
         return usuarioDAO;
     }
     
-    public static GenericDAO getGenericDAO() {
-        if(genericDAO == null) {
-            genericDAO = new GenericDAO();
+    public static BaseDAO getBaseDAO() {
+        if(baseDAO == null) {
+            baseDAO = new BaseDAO();
         }
         
-        return genericDAO;
+        return baseDAO;
     }
 }

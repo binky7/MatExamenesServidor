@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
  *
  * @author Jesus Donaldo
  */
-public class CursoDAO extends GenericDAO<CursoDTO, Integer> {
+public class CursoDAO extends BaseDAO<CursoDTO, Integer> {
 
     //Obtiene los temas del curso...
     private final String GET_TEMAS = "SELECT ELEMENTS(c.temas) " +

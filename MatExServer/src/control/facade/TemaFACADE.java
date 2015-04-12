@@ -13,7 +13,7 @@ import modelo.dto.TemaDTO;
  *
  * @author ivan
  */
-public class TemaFACADE extends GenericFACADE<TemaDTO, Integer> {
+public class TemaFACADE extends BaseFACADE<TemaDTO, Integer> {
     /**
      * 
      * @return Los temas que no pertenecen a ningun curso

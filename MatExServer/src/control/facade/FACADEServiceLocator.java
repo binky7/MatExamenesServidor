@@ -13,7 +13,7 @@ public class FACADEServiceLocator {
     
     private static CursoFACADE cursoFACADE;
     private static TemaFACADE temaFACADE;
-    private static GenericFACADE genericFACADE;
+    private static BaseFACADE baseFACADE;
     
     public static CursoFACADE getCursoFACADE() {
         if(cursoFACADE == null) {
@@ -31,11 +31,11 @@ public class FACADEServiceLocator {
         return temaFACADE;
     }
     
-    public static GenericFACADE getGenericFACADE() {
-        if(genericFACADE == null) {
-            genericFACADE = new GenericFACADE();
+    public static BaseFACADE getBaseFACADE() {
+        if(baseFACADE == null) {
+            baseFACADE = new BaseFACADE();
         }
         
-        return genericFACADE;
+        return baseFACADE;
     }
 }

@@ -11,6 +11,6 @@ import modelo.dto.UsuarioDTO;
  *
  * @author Jesus Donaldo
  */
-public class UsuarioDAO extends GenericDAO<UsuarioDTO, Integer> {
+public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
     
 }

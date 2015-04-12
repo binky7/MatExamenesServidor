@@ -19,7 +19,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author Jesus Donaldo
  */
-public class ExamenDAO extends GenericDAO<ExamenDTO, Integer> {
+public class ExamenDAO extends BaseDAO<ExamenDTO, Integer> {
 
     public ExamenDTO obtener(Integer id) {
         //Regresa todas las relaciones
