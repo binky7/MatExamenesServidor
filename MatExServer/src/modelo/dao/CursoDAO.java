@@ -52,7 +52,7 @@ public class CursoDAO extends GenericDAO<CursoDTO, Integer> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            temas = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");

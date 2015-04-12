@@ -8,69 +8,60 @@ package modelo.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Jesus Donaldo
  */
 @Entity
-@Table(
-        name = "claveexamen",
-        uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"clave", "idExamen"})
-)
+@Table(name = "claveexamen")
 public class ClaveExamenDTO implements Serializable {
     
-    private int id;
-    private int clave;
+    private ClaveExamenPK id;
     private ExamenDTO examen;
     private List<ReactivoDTO> reactivos = new ArrayList<ReactivoDTO>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, length = 11)
+    @AttributeOverrides({
+        @AttributeOverride(name = "clave",
+                column = @Column(name = "clave")),
+        @AttributeOverride(name = "idExamen",
+                column = @Column(name = "idExamen"))
+    })
+    @EmbeddedId
     /**
      * @return the id
      */
-    public int getId() {
+    public ClaveExamenPK getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(ClaveExamenPK id) {
         this.id = id;
     }
-
-    @Column(name = "clave", nullable = false, length = 11)
-    /**
-     * @return the clave
-     */
-    public int getClave() {
-        return clave;
-    }
-
-    /**
-     * @param clave the clave to set
-     */
-    public void setClave(int clave) {
-        this.clave = clave;
-    }
-
+    
+    @MapsId("idExamen")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idExamen", nullable = false)
+    @JoinColumn(
+            name = "idExamen",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false,
+            nullable = false
+    )
     /**
      * @return the examen
      */
@@ -88,7 +79,10 @@ public class ClaveExamenDTO implements Serializable {
     @OneToMany
     @JoinTable(
             name = "claveexamen_reactivo",
-            joinColumns = @JoinColumn(name = "idClaveExamen"),
+            joinColumns = {
+                @JoinColumn(name = "clave"),
+                @JoinColumn(name = "idExamen")
+            },
             inverseJoinColumns = @JoinColumn(name = "idReactivo")
     )
     /**
@@ -104,6 +98,4 @@ public class ClaveExamenDTO implements Serializable {
     public void setReactivos(List<ReactivoDTO> reactivos) {
         this.reactivos = reactivos;
     }
-    
-    
 }

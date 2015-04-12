@@ -18,8 +18,8 @@ public interface Persistencia extends Remote {
     <T> List<T> obtenerEntidades(Class<T> clazz) throws RemoteException;
     <T, ID extends Serializable> ID guardarEntidad(T entidad)
             throws RemoteException;
-    <T> void modificarEntidad(T entidad) throws RemoteException;
-    <T> void eliminarEntidad(T entidad) throws RemoteException;
+    <T> boolean modificarEntidad(T entidad) throws RemoteException;
+    <T> boolean eliminarEntidad(T entidad) throws RemoteException;
     List<TemaDTO> obtenerTemasSinAsignar() throws RemoteException;
     List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso) throws RemoteException;
 }

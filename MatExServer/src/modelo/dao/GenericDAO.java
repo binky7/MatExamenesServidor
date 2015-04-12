@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
 import remoteAccess.DAOInterface;
 
@@ -53,7 +54,7 @@ implements DAOInterface<T, ID> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            entidades = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");
@@ -83,7 +84,7 @@ implements DAOInterface<T, ID> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            id = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");
@@ -93,14 +94,15 @@ implements DAOInterface<T, ID> {
     }
     
     @Override
-    public void modificar(T entidad) {  
+    public boolean modificar(T entidad) {  
         
         Session s = getSession();
         Transaction tx = null;
+        boolean ok = true;
         
         if(s == null) {
             System.out.println("Session nula, regresando null....");
-            return;
+            return false;
         }
         
         try {
@@ -108,26 +110,37 @@ implements DAOInterface<T, ID> {
             //Modifica la entidad en la base de datos
             s.update(entidad);
             tx.commit();
+        } catch(StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            ID id = insertar(entidad);
+            if(id == null) {
+                ok = false;
+            }
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            ok = false;
         } finally {
             s.close();
             System.out.println("Session cerrada");
         }
+        
+        return ok;
     }
     
     @Override
-    public void eliminar(T entidad) {  
+    public boolean eliminar(T entidad) {  
         
         Session s = getSession();
         Transaction tx = null;
+        boolean ok = true;
         
         if(s == null) {
             System.out.println("Session nula, regresando null....");
-            return;
+            return false;
         }
         
         try {
@@ -135,14 +148,20 @@ implements DAOInterface<T, ID> {
             //Elimina la entidad de la base de datos
             s.delete(entidad);
             tx.commit();
+        } catch(StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            ok = false;
         } finally {
             s.close();
             System.out.println("Session cerrada");
         }
+        
+        return ok;
     }
 }

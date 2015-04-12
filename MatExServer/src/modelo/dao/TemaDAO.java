@@ -46,7 +46,7 @@ public class TemaDAO extends GenericDAO<TemaDTO, Integer> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            temas = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");

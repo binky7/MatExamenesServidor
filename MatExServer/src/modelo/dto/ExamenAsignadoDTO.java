@@ -9,60 +9,67 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.TIMESTAMP;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Jesus Donaldo
  */
 @Entity
-@Table(
-        name = "examenasignado",
-        uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"idExamen", "idAlumno"})
-)
+@Table(name = "examenasignado")
 public class ExamenAsignadoDTO implements Serializable {
     
-    private int id;
+    private ExamenAsignadoPK id = new ExamenAsignadoPK();
     private ExamenDTO examen;
     private UsuarioDTO alumno;
     private int tiempo;
     private Date fechaAsignacion;
-    private double calificacion;
+    private double calificacion = -1;
     private List<ReactivoAsignadoDTO> reactivos = 
             new ArrayList<ReactivoAsignadoDTO>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, length = 11)
+    @AttributeOverrides({
+        @AttributeOverride(name = "idExamen",
+                column = @Column(name = "idExamen")),
+        @AttributeOverride(name = "idAlumno",
+                column = @Column(name = "idAlumno"))
+    })
+    @EmbeddedId
     /**
      * @return the id
      */
-    public int getId() {
+    public ExamenAsignadoPK getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(ExamenAsignadoPK id) {
         this.id = id;
     }
-
+    
+    @MapsId("idExamen")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idExamen", nullable = false)
+    @JoinColumn(
+            name = "idExamen",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false,
+            nullable = false
+    )
     /**
      * @return the examen
      */
@@ -77,8 +84,15 @@ public class ExamenAsignadoDTO implements Serializable {
         this.examen = examen;
     }
 
+    @MapsId("idAlumno")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idAlumno", nullable = false)
+    @JoinColumn(
+            name = "idAlumno",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false,
+            nullable = false
+    )
     /**
      * @return the alumno
      */
@@ -158,5 +172,8 @@ public class ExamenAsignadoDTO implements Serializable {
         this.reactivos = reactivos;
     }
     
-    
+    public void addReactivo(ReactivoAsignadoDTO reactivo) {
+        reactivo.setExamen(this);
+        reactivos.add(reactivo);
+    }
 }

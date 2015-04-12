@@ -46,7 +46,7 @@ public class GrupoDAO extends GenericDAO<GrupoDTO, Integer> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            grupo = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");

@@ -17,6 +17,6 @@ import java.util.List;
 public interface DAOInterface<T, ID extends Serializable> {
     List<T> obtenerTodos(Class<T> clazz);
     ID insertar(T entidad);
-    void modificar(T entidad);
-    void eliminar(T entidad);
+    boolean modificar(T entidad);
+    boolean eliminar(T entidad);
 }

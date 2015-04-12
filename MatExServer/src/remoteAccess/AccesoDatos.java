@@ -36,13 +36,13 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public <T> void modificarEntidad(T entidad) throws RemoteException {
-        FACADEServiceLocator.getGenericFACADE().modificarEntidad(entidad);
+    public <T> boolean modificarEntidad(T entidad) throws RemoteException {
+        return FACADEServiceLocator.getGenericFACADE().modificarEntidad(entidad);
     }
 
     @Override
-    public <T> void eliminarEntidad(T entidad) throws RemoteException {
-        FACADEServiceLocator.getGenericFACADE().eliminarEntidad(entidad);
+    public <T> boolean eliminarEntidad(T entidad) throws RemoteException {
+        return FACADEServiceLocator.getGenericFACADE().eliminarEntidad(entidad);
     }
 
     @Override

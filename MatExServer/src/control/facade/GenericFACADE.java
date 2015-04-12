@@ -26,12 +26,12 @@ public class GenericFACADE<T, ID extends Serializable> {
         return (ID) DAOServiceLocator.getGenericDAO().insertar(entidad);
     }
     
-    public void modificarEntidad(T entidad) {
-        DAOServiceLocator.getGenericDAO().modificar(entidad);
+    public boolean modificarEntidad(T entidad) {
+        return DAOServiceLocator.getGenericDAO().modificar(entidad);
     }
     
-    public void eliminarEntidad(T entidad) {
-        DAOServiceLocator.getGenericDAO().eliminar(entidad);
+    public boolean eliminarEntidad(T entidad) {
+        return DAOServiceLocator.getGenericDAO().eliminar(entidad);
     }
     
 }

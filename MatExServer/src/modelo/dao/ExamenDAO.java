@@ -49,7 +49,7 @@ public class ExamenDAO extends GenericDAO<ExamenDTO, Integer> {
             if (tx != null) {
                 tx.rollback();
             }
-            throw e;
+            examen = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");

@@ -8,57 +8,75 @@ package modelo.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Jesus Donaldo
  */
 @Entity
-@Table(
-        name = "reactivoexamenasignado",
-        uniqueConstraints = 
-        @UniqueConstraint(columnNames = {"idExamenAsignado", "idReactivo"})
-)
+@Table(name = "reactivoexamenasignado")
 public class ReactivoAsignadoDTO implements Serializable {
     
-    private int id;
+    private ReactivoAsignadoPK id;
     private ExamenAsignadoDTO examen;
-    private int idReactivo;
     private String redaccionReactivo;
     private String respuestaReactivo;
     private String respuestaAlumno;
     private List<String> opcionesReactivo = new ArrayList<String>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true, length = 11)
+    @AttributeOverrides({
+        @AttributeOverride(name = "idExamenAsignado.idExamen",
+                column = @Column(name = "idExamen")),
+        @AttributeOverride(name = "idExamenAsignado.idAlumno",
+                column = @Column(name = "idAlumno")),
+        @AttributeOverride(name = "idReactivo",
+                column = @Column(name = "idReactivo"))
+    })
+    @EmbeddedId
     /**
      * @return the id
      */
-    public int getId() {
+    public ReactivoAsignadoPK getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(ReactivoAsignadoPK id) {
         this.id = id;
     }
-
+    
+    @MapsId("idExamenAsignado")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "idExamenAsignado", nullable = false)
+    @JoinColumns({
+        @JoinColumn(
+            name = "idExamen",
+            referencedColumnName = "idExamen",
+            insertable = false,
+            updatable = false,
+            nullable = false
+        ),
+        @JoinColumn(
+            name = "idAlumno",
+            referencedColumnName = "idAlumno",
+            insertable = false,
+            updatable = false,
+            nullable = false
+        )
+    })
     /**
      * @return the examen
      */
@@ -71,21 +89,6 @@ public class ReactivoAsignadoDTO implements Serializable {
      */
     public void setExamen(ExamenAsignadoDTO examen) {
         this.examen = examen;
-    }
-
-    @Column(name = "idReactivo", nullable = false, length = 11)
-    /**
-     * @return the idReactivo
-     */
-    public int getIdReactivo() {
-        return idReactivo;
-    }
-
-    /**
-     * @param idReactivo the idReactivo to set
-     */
-    public void setIdReactivo(int idReactivo) {
-        this.idReactivo = idReactivo;
     }
 
     @Column(name = "redaccionReactivo", nullable = false, length = 500)
@@ -136,7 +139,11 @@ public class ReactivoAsignadoDTO implements Serializable {
    @ElementCollection
    @CollectionTable(
            name="opciones_reactivoexamenasignado",
-           joinColumns=@JoinColumn(name="idReactivoExamenAsignado")
+           joinColumns = {
+                @JoinColumn(name = "idExamen", referencedColumnName = "idExamen"),
+                @JoinColumn(name = "idAlumno", referencedColumnName = "idAlumno"),
+                @JoinColumn(name = "idReactivo", referencedColumnName = "idReactivo")
+            }
    )
    @Column(name="opcion", nullable = false, length = 200)
     /**
@@ -152,6 +159,4 @@ public class ReactivoAsignadoDTO implements Serializable {
     public void setOpcionesReactivo(List<String> opcionesReactivo) {
         this.opcionesReactivo = opcionesReactivo;
     }
-    
-    
 }
