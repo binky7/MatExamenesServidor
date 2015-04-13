@@ -69,7 +69,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<CursoDTO> obtenerCursos(UsuarioDTO maestro) throws RemoteException {
+    public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -124,7 +124,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public GrupoDTO obtenerGrupoSoloAlumnos(int idGrupo) throws RemoteException {
+    public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
