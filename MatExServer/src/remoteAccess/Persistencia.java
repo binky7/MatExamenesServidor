@@ -36,7 +36,8 @@ public interface Persistencia extends Remote {
     
     CursoDTO obtenerCurso(int idCurso) throws RemoteException;
     
-    List<CursoDTO> obtenerCursos(UsuarioDTO maestro) throws RemoteException;
+    List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
+            throws RemoteException;
     
     List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso) throws RemoteException;
     
@@ -63,7 +64,8 @@ public interface Persistencia extends Remote {
     
     GrupoDTO obtenerGrupo(int idGrupo) throws RemoteException;
     
-    GrupoDTO obtenerGrupoSoloAlumnos(int idGrupo) throws RemoteException;
+    List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo)
+            throws RemoteException;
     
     List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
             throws RemoteException;
