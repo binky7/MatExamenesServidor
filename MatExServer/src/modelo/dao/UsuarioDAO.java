@@ -32,7 +32,7 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             //Obtiene todos los objetos que concuenrden con el apellido
             
             usuarios = s.createCriteria(UsuarioDTO.class)
-            .add( Restrictions.like("apellidoPaterno", apellido+"%") )
+            .add( Restrictions.like("apellidoPaterno", "%"+apellido+"%") )
             .list();
       
             tx.commit();
