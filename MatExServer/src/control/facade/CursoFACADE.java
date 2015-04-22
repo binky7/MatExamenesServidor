@@ -27,4 +27,13 @@ public class CursoFACADE extends BaseFACADE<CursoDTO, Integer> {
         listaTemas = DAOServiceLocator.getCursoDAO().obtenerTemas(curso);
         return listaTemas;
     }
+    
+    public boolean verificarExistencia(CursoDTO curso) {
+        boolean ok = DAOServiceLocator.getCursoDAO().existe(curso);
+        return ok;
+    }
+    
+    public CursoDTO obtenerCursoPorTema(TemaDTO tema) {
+        return DAOServiceLocator.getCursoDAO().obtenerPorTema(tema);
+    }
 }
