@@ -80,7 +80,9 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     @Override
     public UsuarioDTO obtenerUsuario(String usuario) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UsuarioDTO _usuario;
+        _usuario = FACADEServiceLocator.getUsuarioFACADE().obtenerEntidad(usuario);
+        return _usuario;
     }
 
     @Override

@@ -23,5 +23,11 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         
         return usuarios;
     }
+    
+    public UsuarioDTO obtenerEntidad(String usuario){
+        UsuarioDTO _usuario;
+        _usuario = DAOServiceLocator.getUsuarioDAO().obtener(usuario);
+        return _usuario;
+    }
 
 }
