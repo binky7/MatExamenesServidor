@@ -75,7 +75,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     @Override
     public boolean verificarExistencia(CursoDTO curso) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return FACADEServiceLocator.getCursoFACADE().verificarExistencia(curso);
     }
 
     @Override
@@ -193,5 +193,10 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public ExamenAsignadoDTO obtenerExamenAsignado(UsuarioDTO alumno) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CursoDTO obtenerCursoPorTema(TemaDTO tema) throws RemoteException {
+        return FACADEServiceLocator.getCursoFACADE().obtenerCursoPorTema(tema);
     }
 }
