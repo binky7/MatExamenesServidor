@@ -19,6 +19,7 @@ import modelo.dto.ReactivoDTO;
 import modelo.dto.TablaEstadisticas;
 import modelo.dto.TemaDTO;
 import modelo.dto.UsuarioDTO;
+import modelo.dto.UsuarioDTO.Tipo;
 
 /**
  *
@@ -69,7 +70,8 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro) throws RemoteException {
+    public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -86,12 +88,14 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno, UsuarioDTO.Tipo tipo) throws RemoteException {
+    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno,
+            Tipo tipo) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno) throws RemoteException {
+    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno)
+            throws RemoteException {
         List<UsuarioDTO> usuarios;
          
         usuarios = FACADEServiceLocator.getUsuarioFACADE()
@@ -102,22 +106,29 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     @Override
     public ReactivoDTO obtenerReactivo(int idReactivo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return FACADEServiceLocator.getReactivoFACADE()
+                .obtenerReactivo(idReactivo);
     }
 
     @Override
-    public List<ReactivoDTO> obtenerReactivosPorTema(TemaDTO tema) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ReactivoDTO> obtenerReactivosPorTema(TemaDTO tema)
+            throws RemoteException {
+        return FACADEServiceLocator.getReactivoFACADE()
+                .obtenerReactivosPorTema(tema);
     }
 
     @Override
-    public List<ReactivoDTO> obtenerReactivosAleatorios(List<TemaDTO> temas, List<Integer> cantidades) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ReactivoDTO> obtenerReactivosAleatorios(List<TemaDTO> temas,
+            List<Integer> cantidades) throws RemoteException {
+        return FACADEServiceLocator.getReactivoFACADE()
+                .obtenerReactivosAleatorios(temas, cantidades);
     }
 
     @Override
-    public boolean eliminarReactivos(List<ReactivoDTO> reactivos) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean eliminarReactivos(List<ReactivoDTO> reactivos)
+            throws RemoteException {
+        return FACADEServiceLocator.getReactivoFACADE()
+                .eliminarReactivos(reactivos);
     }
 
     @Override
@@ -126,17 +137,20 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo) throws RemoteException {
+    public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro) throws RemoteException {
+    public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean verificarExistencia(GrupoDTO grupo) throws RemoteException {
+    public boolean verificarExistencia(GrupoDTO grupo)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -146,52 +160,64 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<ExamenDTO> obtenerExamenesPorCurso(CursoDTO curso, boolean todos, UsuarioDTO maestro) throws RemoteException {
+    public List<ExamenDTO> obtenerExamenesPorCurso(CursoDTO curso, boolean todos,
+            UsuarioDTO maestro) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ExamenDTO> obtenerExamenesPorTitulo(String titulo, boolean todos, UsuarioDTO maestro) throws RemoteException {
+    public List<ExamenDTO> obtenerExamenesPorTitulo(String titulo, boolean todos,
+            UsuarioDTO maestro) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ExamenDTO> obtenerExamenesPorCursoYTitulo(CursoDTO curso, String titulo, boolean todos, UsuarioDTO maestro) throws RemoteException {
+    public List<ExamenDTO> obtenerExamenesPorCursoYTitulo(CursoDTO curso,
+            String titulo, boolean todos, UsuarioDTO maestro)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public TablaEstadisticas generarEstadisticasPorGrupos(List<ExamenDTO> examenes, List<GrupoDTO> grupos) throws RemoteException {
+    public TablaEstadisticas generarEstadisticasPorGrupos(
+            List<ExamenDTO> examenes, List<GrupoDTO> grupos)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public TablaEstadisticas generarEstadisticasPorGrados(List<ExamenDTO> examenes) throws RemoteException {
+    public TablaEstadisticas generarEstadisticasPorGrados(
+            List<ExamenDTO> examenes) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public TablaEstadisticas generarEstadisticasPorTurnos(List<ExamenDTO> examenes) throws RemoteException {
+    public TablaEstadisticas generarEstadisticasPorTurnos(
+            List<ExamenDTO> examenes) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean asignarExamenes(List<ExamenAsignadoDTO> examenes) throws RemoteException {
+    public boolean asignarExamenes(List<ExamenAsignadoDTO> examenes)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ExamenAsignadoDTO obtenerExamenContestado(ExamenAsignadoPK id) throws RemoteException {
+    public ExamenAsignadoDTO obtenerExamenContestado(ExamenAsignadoPK id)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ExamenAsignadoDTO> obtenerExamenesContestados(UsuarioDTO alumno, CursoDTO curso) throws RemoteException {
+    public List<ExamenAsignadoDTO> obtenerExamenesContestados(UsuarioDTO alumno,
+            CursoDTO curso) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ExamenAsignadoDTO obtenerExamenAsignado(UsuarioDTO alumno) throws RemoteException {
+    public ExamenAsignadoDTO obtenerExamenAsignado(UsuarioDTO alumno)
+            throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
