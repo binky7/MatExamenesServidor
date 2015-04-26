@@ -64,12 +64,13 @@ public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
             System.out.println("Session nula, regresando null....");
             return null;
         }
-        
+
         try {
             tx = s.beginTransaction();
             //Obtiene todos los objetos de la clase, sin sus relaciones
-            Criteria c = s.createCriteria(ReactivoDTO.class)
-                    .add(Restrictions.eq("tema", tema));
+            Criteria c = s.createCriteria(ReactivoDTO.class, "reactivo")
+                    .createAlias("reactivo.tema", "tema")
+                    .add(Restrictions.eq("tema.nombre", tema.getNombre()));
             
             reactivos = c.list();
             tx.commit();
