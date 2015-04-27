@@ -187,5 +187,19 @@ public class ReactivoDTO implements Serializable {
         this.autor = autor;
     }
     
-    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ReactivoDTO))
+            return false;
+        ReactivoDTO r = (ReactivoDTO) o;
+        
+        return r.id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + this.id;
+        return hash;
+    }
 }

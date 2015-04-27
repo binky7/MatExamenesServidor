@@ -16,6 +16,7 @@ public class FACADEServiceLocator {
     private static BaseFACADE baseFACADE;
     private static UsuarioFACADE usuarioFACADE;
     private static ReactivoFACADE reactivoFACADE;
+    private static ExamenFACADE examenFACADE;
     
     public static CursoFACADE getCursoFACADE() {
         if(cursoFACADE == null) {
@@ -48,7 +49,15 @@ public class FACADEServiceLocator {
         
         return reactivoFACADE;
     }
-            
+        
+    public static ExamenFACADE getExamenFACADE() {
+        if(examenFACADE == null) {
+            examenFACADE = new ExamenFACADE();
+        }
+        
+        return examenFACADE;
+    }
+    
     public static BaseFACADE getBaseFACADE() {
         if(baseFACADE == null) {
             baseFACADE = new BaseFACADE();
