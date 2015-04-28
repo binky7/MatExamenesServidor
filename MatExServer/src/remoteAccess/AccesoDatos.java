@@ -28,9 +28,9 @@ import modelo.dto.UsuarioDTO.Tipo;
 public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     public AccesoDatos() throws RemoteException {
-        
+
     }
-    
+
     @Override
     public <T> List<T> obtenerEntidades(Class<T> clazz) throws RemoteException {
         return FACADEServiceLocator.getBaseFACADE().obtenerEntidades(clazz);
@@ -97,10 +97,10 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno)
             throws RemoteException {
         List<UsuarioDTO> usuarios;
-         
+
         usuarios = FACADEServiceLocator.getUsuarioFACADE()
                 .obtenerUsuariosPorApellido(apellidoPaterno);
-        
+
         return usuarios;
     }
 
@@ -133,7 +133,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     @Override
     public GrupoDTO obtenerGrupo(int idGrupo) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return FACADEServiceLocator.getGrupoFACADE().obtenerGrupo(idGrupo);
     }
 
     @Override
