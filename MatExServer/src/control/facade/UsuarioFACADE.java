@@ -8,6 +8,7 @@ package control.facade;
 import java.util.List;
 import modelo.dao.DAOServiceLocator;
 import modelo.dto.UsuarioDTO;
+import modelo.dto.UsuarioDTO.Tipo;
 
 /**
  *
@@ -20,11 +21,29 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
 
         usuarios = DAOServiceLocator.getUsuarioDAO()
                 .obtenerUsuariosPorApellido(apellido);
-        
+
         return usuarios;
     }
-    
-    public UsuarioDTO obtenerEntidad(String usuario){
+
+    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido, Tipo tipo) {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = DAOServiceLocator.getUsuarioDAO()
+                .obtenerUsuariosPorApellido(apellido, tipo);
+
+        return usuarios;
+    }
+
+    public List<UsuarioDTO> obtenerAlumnosPorApellido(String apellido) {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = DAOServiceLocator.getUsuarioDAO()
+                .obtenerAlumnosPorApellido(apellido);
+
+        return usuarios;
+    }
+
+    public UsuarioDTO obtenerEntidad(String usuario) {
         UsuarioDTO _usuario;
         _usuario = DAOServiceLocator.getUsuarioDAO().obtener(usuario);
         return _usuario;

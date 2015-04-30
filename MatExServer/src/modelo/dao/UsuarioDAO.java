@@ -10,31 +10,39 @@ import modelo.dto.UsuarioDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import modelo.dto.UsuarioDTO.Tipo;
+import org.hibernate.Query;
 
 /**
  *
  * @author Jesus Donaldo
  */
 public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
-    
-    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido){
+
+    //Obtener todos los alumnos que no pertenecen a un grupo....
+
+    private final String GET_ALUMNOS_SIN_ASIGNAR = "SELECT DISTINCT a2 FROM "
+            + "UsuarioDTO AS a2 WHERE a2 NOT IN"
+            + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = 'Alumno'";
+
+    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido) {
         Session s = getSession();
         Transaction tx = null;
         List<UsuarioDTO> usuarios;
-        
-        if(s == null) {
+
+        if (s == null) {
             System.out.println("Session nula, regresando null....");
             return null;
         }
-        
+
         try {
             tx = s.beginTransaction();
             //Obtiene todos los objetos que concuenrden con el apellido
-            
+
             usuarios = s.createCriteria(UsuarioDTO.class)
-            .add( Restrictions.like("apellidoPaterno", "%"+apellido+"%") )
-            .list();
-      
+                    .add(Restrictions.like("apellidoPaterno", "%" + apellido + "%"))
+                    .list();
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
@@ -47,25 +55,87 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
         }
         return usuarios;
     }
-    
-    public UsuarioDTO obtener(String usuario){
+
+    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido, Tipo tipo) {
         Session s = getSession();
         Transaction tx = null;
-        UsuarioDTO _usuario;
-        
-        if(s == null) {
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
             System.out.println("Session nula, regresando null....");
             return null;
         }
-        
+
         try {
             tx = s.beginTransaction();
             //Obtiene todos los objetos que concuenrden con el apellido
+
+            usuarios = s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.and(
+                                    Restrictions.like("apellidoPaterno", "%" + apellido + "%"),
+                                    Restrictions.eq("tipo", tipo)))
+                    .list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
+    public List<UsuarioDTO> obtenerAlumnosPorApellido(String apellido) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+            Query q = s.createQuery(GET_ALUMNOS_SIN_ASIGNAR);
+
+            usuarios = q.list();
             
-             _usuario =(UsuarioDTO) s.createCriteria(UsuarioDTO.class)
-            .add( Restrictions.eq("usuario", usuario) ).uniqueResult();
-            
-      
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            //s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
+    public UsuarioDTO obtener(String usuario) {
+        Session s = getSession();
+        Transaction tx = null;
+        UsuarioDTO _usuario;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+
+            _usuario = (UsuarioDTO) s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.eq("usuario", usuario)).uniqueResult();
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
