@@ -20,10 +20,10 @@ import org.hibernate.Query;
 public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
 
     //Obtener todos los alumnos que no pertenecen a un grupo....
-
     private final String GET_ALUMNOS_SIN_ASIGNAR = "SELECT DISTINCT a2 FROM "
             + "UsuarioDTO AS a2 WHERE a2 NOT IN"
-            + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = 'Alumno'";
+            + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = "
+            + "'Alumno' and a2.apellidoPaterno like ?";
 
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido) {
         Session s = getSession();
@@ -103,9 +103,9 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             tx = s.beginTransaction();
             //Obtiene todos los objetos que concuenrden con el apellido
             Query q = s.createQuery(GET_ALUMNOS_SIN_ASIGNAR);
-
+            q.setString(0, "%" + apellido + "%");
             usuarios = q.list();
-            
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
