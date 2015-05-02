@@ -13,6 +13,7 @@ public class DAOServiceLocator {
     
     private static CursoDAO cursoDAO;
     private static ExamenDAO examenDAO;
+    private static ExamenAsignadoDAO examenAsignadoDAO;
     private static GrupoDAO grupoDAO;
     private static ReactivoDAO reactivoDAO;
     private static TemaDAO temaDAO;
@@ -65,6 +66,14 @@ public class DAOServiceLocator {
         }
         
         return usuarioDAO;
+    }
+    
+    public static ExamenAsignadoDAO getExamenAsignadoDAO() {
+        if(examenAsignadoDAO == null) {
+            examenAsignadoDAO = new ExamenAsignadoDAO();
+        }
+        
+        return examenAsignadoDAO;
     }
     
     public static BaseDAO getBaseDAO() {

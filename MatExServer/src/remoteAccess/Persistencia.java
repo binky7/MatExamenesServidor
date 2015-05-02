@@ -104,7 +104,7 @@ public interface Persistencia extends Remote {
     List<ExamenAsignadoDTO> obtenerExamenesContestados(UsuarioDTO alumno,
             CursoDTO curso) throws RemoteException;
     
-    ExamenAsignadoDTO obtenerExamenAsignado(UsuarioDTO alumno)
+    List<ExamenAsignadoDTO> obtenerExamenesAsignados(UsuarioDTO alumno)
             throws RemoteException;
     
     CursoDTO obtenerCursoPorTema(TemaDTO tema)
