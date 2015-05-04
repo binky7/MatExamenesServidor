@@ -72,7 +72,8 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
             throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return FACADEServiceLocator.getGrupoFACADE().obtenerCursosDeGrupo(maestro);
     }
 
     @Override
@@ -160,7 +161,9 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
             throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return FACADEServiceLocator.getGrupoFACADE()
+                .obtenerGruposPorCurso(curso, maestro);
     }
 
     @Override
@@ -200,19 +203,25 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     public TablaEstadisticas generarEstadisticasPorGrupos(
             List<ExamenDTO> examenes, List<GrupoDTO> grupos)
             throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .generarEstadisticasPorGrupos(examenes, grupos);
     }
 
     @Override
     public TablaEstadisticas generarEstadisticasPorGrados(
             List<ExamenDTO> examenes) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .generarEstadisticasPorGrados(examenes);
     }
 
     @Override
     public TablaEstadisticas generarEstadisticasPorTurnos(
             List<ExamenDTO> examenes) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .generarEstadisticasPorTurnos(examenes);
     }
 
     @Override

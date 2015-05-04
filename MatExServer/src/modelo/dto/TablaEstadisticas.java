@@ -16,8 +16,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TablaEstadisticas extends AbstractTableModel {
     
-    private String[] names;
-    private Object[][] data;
+    private final String[] names;
+    private final Object[][] data;
     
     private ObservableList<BarChart.Series> bcData;
 //    private String[] names = {"Leonardo", "Angel", "Juan"};
@@ -54,7 +54,7 @@ getValueAt(row, column)));
     public double getTickUnit() {
         return 1000;
     }
-    public List getColumnNames() {
+    public List<String> getColumnNames() {
         return Arrays.asList(names);
     }
 

@@ -11,10 +11,13 @@ import java.util.List;
 import modelo.dto.CursoDTO;
 import modelo.dto.ExamenAsignadoDTO;
 import modelo.dto.ExamenAsignadoPK;
+import modelo.dto.ExamenDTO;
+import modelo.dto.GrupoDTO;
 import modelo.dto.ReactivoAsignadoDTO;
 import modelo.dto.UsuarioDTO;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
@@ -26,6 +29,20 @@ import org.hibernate.criterion.Restrictions;
  */
 public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignadoPK> {
     
+    private static final String GET_PROMEDIOS_GRUPO = "SELECT AVG(ea.calificacion) "
+            + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
+    "WHERE (g = :grupo AND ea.alumno IN ELEMENTS(g.alumnos)) " +
+    "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g";
+    
+    private static final String GET_PROMEDIOS_GRADO = "SELECT AVG(ea.calificacion) "
+            + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
+    "WHERE (g.grado = :grado AND ea.alumno IN ELEMENTS(g.alumnos)) " +
+    "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g.grado";
+    
+    private static final String GET_PROMEDIOS_TURNO = "SELECT AVG(ea.calificacion) "
+            + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
+    "WHERE (g.turno = :turno AND ea.alumno IN ELEMENTS(g.alumnos)) " +
+    "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g.turno";
     
     public boolean insertar(List<ExamenAsignadoDTO> examenes) {
         
@@ -228,5 +245,142 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
         }
         
         return examen;
+    }
+    
+    public Object[] obtenerPromediosPorGrupo(ExamenDTO examen,
+            List<GrupoDTO> grupos) {
+        
+        Session s = getSession();
+        Transaction tx = null;
+        Object[] promedios = new Object[grupos.size()];
+        
+        if(s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+        
+        try {
+            tx = s.beginTransaction();
+            
+            int i = 0;
+            for (GrupoDTO grupo : grupos) {
+                Query q = s.createQuery(GET_PROMEDIOS_GRUPO)
+                        .setEntity("grupo", grupo)
+                        .setEntity("examen", examen);
+
+                promedios[i] = q.uniqueResult();
+                i++;
+            }
+
+            tx.commit();
+            
+        } catch(StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            promedios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return promedios;
+    }
+    
+    public Object[] obtenerPromediosPorGrado(ExamenDTO examen) {
+        Session s = getSession();
+        Transaction tx = null;
+        //Promedios de los 3 grados
+        Object[] promedios = new Object[3];
+        
+        if(s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+        
+        try {
+            tx = s.beginTransaction();
+            
+            //Obtener el promedio por cada grado
+            for (int i = 0; i < 3; i++) {
+                Query q = s.createQuery(GET_PROMEDIOS_GRADO)
+                        .setParameter("grado", i + 1)
+                        .setEntity("examen", examen);
+
+                promedios[i] = q.uniqueResult();
+            }
+
+            tx.commit();
+            
+        } catch(StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            promedios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return promedios;
+    }
+    
+    public Object[] obtenerPromediosPorTurno(ExamenDTO examen) {
+        Session s = getSession();
+        Transaction tx = null;
+        //Promedios por turno
+        Object[] promedios = new Object[2];
+        
+        if(s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+        
+        try {
+            tx = s.beginTransaction();
+            
+            //Obtener el promedio por cada turno
+            for (int i = 0; i < 2; i++) {
+                GrupoDTO.Turno turno;
+                
+                if(i == 0) {
+                    turno = GrupoDTO.Turno.M;
+                }
+                else {
+                    turno = GrupoDTO.Turno.V;
+                }
+                
+                Query q = s.createQuery(GET_PROMEDIOS_TURNO)
+                        .setString("turno", turno.toString())
+                        .setEntity("examen", examen);
+
+                promedios[i] = q.uniqueResult();
+            }
+
+            tx.commit();
+            
+        } catch(StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            promedios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return promedios;
     }
 }

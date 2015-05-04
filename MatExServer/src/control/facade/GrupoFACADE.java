@@ -5,8 +5,11 @@
  */
 package control.facade;
 
+import java.util.List;
 import modelo.dao.DAOServiceLocator;
+import modelo.dto.CursoDTO;
 import modelo.dto.GrupoDTO;
+import modelo.dto.UsuarioDTO;
 
 /**
  *
@@ -18,4 +21,11 @@ public class GrupoFACADE extends BaseFACADE<GrupoDTO, Integer>{
         return DAOServiceLocator.getGrupoDAO().obtener(idGrupo);
     }
     
+    public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro) {
+        return DAOServiceLocator.getGrupoDAO().obtenerCursos(maestro);
+    }
+    
+    public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro) {
+        return DAOServiceLocator.getGrupoDAO().obtenerTodosPorCurso(curso, maestro);
+    }
 }
