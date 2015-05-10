@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import modelo.dto.ClaveExamenDTO;
+import modelo.dto.ClaveExamenPK;
 import modelo.dto.CursoDTO;
 import modelo.dto.ExamenAsignadoDTO;
 import modelo.dto.ExamenAsignadoPK;
@@ -275,5 +277,23 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public CursoDTO obtenerCursoPorTema(TemaDTO tema) throws RemoteException {
         return FACADEServiceLocator.getCursoFACADE().obtenerCursoPorTema(tema);
+    }
+
+    @Override
+    public ExamenDTO obtenerExamenIncompleto(int idExamen) throws RemoteException {
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .obtenerExamen(idExamen);
+    }
+
+    @Override
+    public ClaveExamenDTO obtenerClaveExamen(ClaveExamenPK idClave) throws RemoteException {
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .obtenerClaveExamen(idClave);
+    }
+
+    @Override
+    public ExamenAsignadoDTO obtenerExamenAsignado(ExamenAsignadoPK id) throws RemoteException {
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .obtenerExamenAsignado(id);
     }
 }
