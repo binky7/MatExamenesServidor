@@ -89,6 +89,72 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    public List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+
+            usuarios = s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.and(
+                                    Restrictions.like("apellidoMaterno", "%" + apellidoMaterno + "%"),
+                                    Restrictions.eq("tipo", tipo)))
+                    .list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
+    public List<UsuarioDTO> obtenerUsuariosPorNombre(String nombre, Tipo tipo) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+
+            usuarios = s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.and(
+                                    Restrictions.like("nombre", "%" + nombre + "%"),
+                                    Restrictions.eq("tipo", tipo)))
+                    .list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
     public List<UsuarioDTO> obtenerAlumnosPorApellido(String apellido) {
         Session s = getSession();
         Transaction tx = null;

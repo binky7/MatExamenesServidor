@@ -72,7 +72,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
             throws RemoteException {
-        
+
         return FACADEServiceLocator.getGrupoFACADE().obtenerCursosDeGrupo(maestro);
     }
 
@@ -121,6 +121,26 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
+    public List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo) throws RemoteException {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = FACADEServiceLocator.getUsuarioFACADE()
+                .obtenerUsuariosPorApellidoM(apellidoMaterno, tipo);
+
+        return usuarios;
+    }
+
+    @Override
+    public List<UsuarioDTO> obtenerUsuariosPorNombre(String nombre, Tipo tipo) throws RemoteException {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = FACADEServiceLocator.getUsuarioFACADE()
+                .obtenerUsuariosPorNombre(nombre, tipo);
+
+        return usuarios;
+    }
+
+    @Override
     public ReactivoDTO obtenerReactivo(int idReactivo) throws RemoteException {
         return FACADEServiceLocator.getReactivoFACADE()
                 .obtenerReactivo(idReactivo);
@@ -161,7 +181,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
             throws RemoteException {
-        
+
         return FACADEServiceLocator.getGrupoFACADE()
                 .obtenerGruposPorCurso(curso, maestro);
     }
@@ -203,7 +223,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     public TablaEstadisticas generarEstadisticasPorGrupos(
             List<ExamenDTO> examenes, List<GrupoDTO> grupos)
             throws RemoteException {
-        
+
         return FACADEServiceLocator.getExamenAsignadoFACADE()
                 .generarEstadisticasPorGrupos(examenes, grupos);
     }
@@ -211,7 +231,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public TablaEstadisticas generarEstadisticasPorGrados(
             List<ExamenDTO> examenes) throws RemoteException {
-        
+
         return FACADEServiceLocator.getExamenAsignadoFACADE()
                 .generarEstadisticasPorGrados(examenes);
     }
@@ -219,7 +239,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public TablaEstadisticas generarEstadisticasPorTurnos(
             List<ExamenDTO> examenes) throws RemoteException {
-        
+
         return FACADEServiceLocator.getExamenAsignadoFACADE()
                 .generarEstadisticasPorTurnos(examenes);
     }
