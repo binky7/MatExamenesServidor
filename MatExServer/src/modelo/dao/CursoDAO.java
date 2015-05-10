@@ -8,6 +8,7 @@ package modelo.dao;
 import java.util.List;
 import modelo.dto.CursoDTO;
 import modelo.dto.TemaDTO;
+import modelo.dto.UsuarioDTO;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -127,6 +128,10 @@ public class CursoDAO extends BaseDAO<CursoDTO, Integer> {
         }
         
         return objCurso;
+    }
+
+    public List<CursoDTO> obtenerCursosPorMaestro(UsuarioDTO maestro) {
+        return null;
     }
 
 }

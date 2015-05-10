@@ -155,7 +155,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo)
             throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return FACADEServiceLocator.getGrupoFACADE().obtenerGrupo(grupo.getId()).getAlumnos();
     }
 
     @Override

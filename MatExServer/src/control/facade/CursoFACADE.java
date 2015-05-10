@@ -9,6 +9,7 @@ import java.util.List;
 import modelo.dao.DAOServiceLocator;
 import modelo.dto.CursoDTO;
 import modelo.dto.TemaDTO;
+import modelo.dto.UsuarioDTO;
 
 /**
  *
@@ -35,5 +36,9 @@ public class CursoFACADE extends BaseFACADE<CursoDTO, Integer> {
     
     public CursoDTO obtenerCursoPorTema(TemaDTO tema) {
         return DAOServiceLocator.getCursoDAO().obtenerPorTema(tema);
+    }
+
+    public List<CursoDTO> obtenerCursosPorMaestro(UsuarioDTO maestro) {
+        return DAOServiceLocator.getCursoDAO().obtenerCursosPorMaestro(maestro);
     }
 }
