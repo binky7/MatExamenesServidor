@@ -5,11 +5,10 @@
  */
 package control.facade;
 
-import java.util.ArrayList;
 import java.util.List;
 import modelo.dao.DAOServiceLocator;
-import modelo.dao.ExamenDAO;
-import modelo.dao.GrupoDAO;
+import modelo.dto.ClaveExamenDTO;
+import modelo.dto.ClaveExamenPK;
 import modelo.dto.CursoDTO;
 import modelo.dto.ExamenAsignadoDTO;
 import modelo.dto.ExamenAsignadoPK;
@@ -28,10 +27,23 @@ public class ExamenAsignadoFACADE extends BaseFACADE<ExamenAsignadoDTO, ExamenAs
         return DAOServiceLocator.getExamenAsignadoDAO().insertar(examenes);
     }
 
+    public ExamenDTO obtenerExamen(int idExamen) {
+        return DAOServiceLocator.getExamenAsignadoDAO().obtenerExamen(idExamen);
+    }
+    
+    public ClaveExamenDTO obtenerClaveExamen(ClaveExamenPK idClave) {
+        return DAOServiceLocator.getExamenAsignadoDAO()
+                .obtenerClaveExamen(idClave);
+    }
+    
     public List<ExamenAsignadoDTO> obtenerExamenesAsignados(UsuarioDTO alumno) {
         return DAOServiceLocator.getExamenAsignadoDAO().obtenerAsignados(alumno);
     }
 
+    public ExamenAsignadoDTO obtenerExamenAsignado(ExamenAsignadoPK id) {
+        return DAOServiceLocator.getExamenAsignadoDAO().obtenerAsignado(id);
+    }
+    
     public List<ExamenAsignadoDTO> obtenerExamenesContestados(UsuarioDTO alumno,
             CursoDTO curso) {
 

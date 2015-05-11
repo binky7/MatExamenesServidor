@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import modelo.dto.ClaveExamenDTO;
+import modelo.dto.ClaveExamenPK;
 import modelo.dto.CursoDTO;
 import modelo.dto.ExamenAsignadoDTO;
 import modelo.dto.ExamenAsignadoPK;
@@ -97,6 +99,17 @@ public interface Persistencia extends Remote {
     boolean asignarExamenes(List<ExamenAsignadoDTO> examenes)
             throws RemoteException;
 
+    /**
+     * Obtiene el examen con unicamente sus claves
+     * @param idExamen el id del examen que se quiere obtener
+     * @return el objeto examen con la lista de claves inicializada
+     * @throws java.rmi.RemoteException
+     */
+    ExamenDTO obtenerExamenIncompleto(int idExamen) throws RemoteException;
+    
+    ClaveExamenDTO obtenerClaveExamen(ClaveExamenPK idClave)
+            throws RemoteException;
+    
     ExamenAsignadoDTO obtenerExamenContestado(ExamenAsignadoPK id)
             throws RemoteException;
 
@@ -106,6 +119,9 @@ public interface Persistencia extends Remote {
     List<ExamenAsignadoDTO> obtenerExamenesAsignados(UsuarioDTO alumno)
             throws RemoteException;
 
+    ExamenAsignadoDTO obtenerExamenAsignado(ExamenAsignadoPK id)
+            throws RemoteException;
+    
     CursoDTO obtenerCursoPorTema(TemaDTO tema)
             throws RemoteException;
 }
