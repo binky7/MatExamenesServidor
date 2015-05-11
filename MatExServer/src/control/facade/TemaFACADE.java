@@ -26,4 +26,9 @@ public class TemaFACADE extends BaseFACADE<TemaDTO, Integer> {
         return listaTemas;
     }
     
+    public boolean verificarExistencia(TemaDTO tema) {
+        boolean ok = DAOServiceLocator.getTemaDAO().existe(tema);
+        return ok;
+    }
+    
 }

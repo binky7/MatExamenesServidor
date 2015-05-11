@@ -28,4 +28,8 @@ public class GrupoFACADE extends BaseFACADE<GrupoDTO, Integer>{
     public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro) {
         return DAOServiceLocator.getGrupoDAO().obtenerTodosPorCurso(curso, maestro);
     }
+    
+    public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo) {
+        return DAOServiceLocator.getGrupoDAO().obtenerSoloAlumnos(grupo);
+    }
 }

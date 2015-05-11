@@ -32,6 +32,9 @@ public class GrupoDAO extends BaseDAO<GrupoDTO, Integer> {
     private final String GET_GRUPOS_POR_CURSO_MAESTRO = "SELECT idGrupo FROM "
             + "grupo_maestro WHERE idCurso = :idCurso AND idMaestro = :idMaestro";
     
+    private final String GET_ALUMNOS = "SELECT ELEMENTS(g.alumnos) "
+            + " FROM GrupoDTO AS g WHERE g = :grupo";
+    
     public GrupoDTO obtener(Integer id) {
         //Regresa todas las relaciones
         Session s = getSession();
@@ -162,5 +165,36 @@ public class GrupoDAO extends BaseDAO<GrupoDTO, Integer> {
         
         return grupos;
         
+    }
+    
+    public List<UsuarioDTO> obtenerSoloAlumnos(GrupoDTO grupo) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> alumnos;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los alumnos de este grupo
+            Query q = s.createQuery(GET_ALUMNOS).setEntity("grupo", grupo);
+
+            alumnos = q.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            alumnos = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+
+        return alumnos;
     }
 }

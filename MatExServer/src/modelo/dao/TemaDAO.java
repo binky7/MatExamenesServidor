@@ -7,9 +7,11 @@ package modelo.dao;
 
 import java.util.List;
 import modelo.dto.TemaDTO;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -53,5 +55,44 @@ public class TemaDAO extends BaseDAO<TemaDTO, Integer> {
         }
         
         return temas;
+    }
+    
+    public boolean existe(TemaDTO tema) {
+        Session s = getSession();
+        Transaction tx = null;
+        TemaDTO objTema;
+        boolean existe = false;
+        
+        if(s == null) {
+            System.out.println("Session nula");
+        }
+        
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los temas de este curso
+            //Todo query, modificacion, eliminacion e insercion debe estar 
+            //enmedio de este codigo
+            Criteria c = s.createCriteria(TemaDTO.class);
+            c.setMaxResults(1);
+            c.add(Restrictions.eq("nombre", tema.getNombre()));
+            objTema = (TemaDTO)c.uniqueResult();
+            
+            if(objTema != null) {
+                existe = true;
+            } else {
+                existe = false;
+            }
+            
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return existe;
     }
 }
