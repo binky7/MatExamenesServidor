@@ -89,7 +89,7 @@ public class ReactivoDTO implements Serializable {
         this.tema = tema;
     }
 
-    @Column(name = "redaccion", nullable = false, length = 500)
+    @Column(name = "redaccion", nullable = false, length = 1000)
     /**
      * @return the redaccion
      */
@@ -104,7 +104,7 @@ public class ReactivoDTO implements Serializable {
         this.redaccion = redaccion;
     }
 
-    @Column(name = "respuesta", nullable = false, length = 200)
+    @Column(name = "respuesta", nullable = false, length = 250)
     /**
      * @return the respuesta
      */
@@ -124,7 +124,7 @@ public class ReactivoDTO implements Serializable {
            name="opciones_reactivo",
            joinColumns=@JoinColumn(name="idReactivo")
    )
-   @Column(name="opcion", nullable = false, length = 200)
+   @Column(name="opcion", nullable = false, length = 250)
     /**
      * @return the opciones
      */

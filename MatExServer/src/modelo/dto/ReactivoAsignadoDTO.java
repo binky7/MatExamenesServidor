@@ -91,7 +91,7 @@ public class ReactivoAsignadoDTO implements Serializable {
         this.examen = examen;
     }
 
-    @Column(name = "redaccionReactivo", nullable = false, length = 500)
+    @Column(name = "redaccionReactivo", nullable = false, length = 1000)
     /**
      * @return the redaccionReactivo
      */
@@ -106,7 +106,7 @@ public class ReactivoAsignadoDTO implements Serializable {
         this.redaccionReactivo = redaccionReactivo;
     }
 
-    @Column(name = "respuestaReactivo", nullable = false, length = 200)
+    @Column(name = "respuestaReactivo", nullable = false, length = 250)
     /**
      * @return the respuestaReactivo
      */
@@ -121,7 +121,7 @@ public class ReactivoAsignadoDTO implements Serializable {
         this.respuestaReactivo = respuestaReactivo;
     }
 
-    @Column(name = "respuestaAlumno", length = 200)
+    @Column(name = "respuestaAlumno", length = 250)
     /**
      * @return the respuestaAlumno
      */
@@ -145,7 +145,7 @@ public class ReactivoAsignadoDTO implements Serializable {
                 @JoinColumn(name = "idReactivo", referencedColumnName = "idReactivo")
             }
    )
-   @Column(name="opcion", nullable = false, length = 200)
+   @Column(name="opcion", nullable = false, length = 250)
     /**
      * @return the opcionesReactivo
      */

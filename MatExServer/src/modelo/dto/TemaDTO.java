@@ -41,7 +41,7 @@ public class TemaDTO implements Serializable, Comparable<TemaDTO> {
         this.id = id;
     }
 
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    @Column(name = "nombre", nullable = false, unique = true, length = 150)
     /**
      * @return the nombre
      */
