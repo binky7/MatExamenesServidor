@@ -130,4 +130,6 @@ public interface Persistencia extends Remote {
     
     CursoDTO obtenerCursoPorTema(TemaDTO tema)
             throws RemoteException;
+    
+    boolean verificarExistencia(TemaDTO tema) throws RemoteException;
 }

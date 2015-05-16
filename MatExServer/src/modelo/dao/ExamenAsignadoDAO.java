@@ -66,7 +66,9 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
                 ExamenAsignadoDTO examen = examenes.get(i);
                 //Buscar si ya hay un examen asignado en la base de datos
                 ExamenAsignadoDTO examenBD = (ExamenAsignadoDTO) s
-                        .get(ExamenAsignadoDTO.class, examen.getId());
+                        .get(ExamenAsignadoDTO.class, 
+                                new ExamenAsignadoPK(examen.getExamen().getId(),
+                        examen.getAlumno().getId()));
                 
                 if(examenBD == null) {
                     //No existe asignacion
@@ -74,17 +76,12 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
                     s.save(examen);
                 }
                 else {
-                    //Pasar los datos al objeto en la bd
-                    examenBD.setTiempo(examen.getTiempo());
-                    //Asignar fecha del servidor
-                    examenBD.setFechaAsignacion(new Date());
-                    examenBD.setCalificacion(examen.getCalificacion());
-                    examenBD.setReactivos(new ArrayList<ReactivoAsignadoDTO>());
-                    for(ReactivoAsignadoDTO reactivo : examen.getReactivos()) {
-                        examenBD.addReactivo(reactivo);
-                    }
-                    //Actualizar la informacion
-                    s.update(examenBD);
+                        //Remover objeto antiguo
+                        s.delete(examenBD);
+                        
+                        examen.setFechaAsignacion(new Date());
+                        //Actualizar la informacion
+                        s.save(examen);
                 }
                 
                 if(i % 20 == 0) {
@@ -99,6 +96,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
                 tx.rollback();
             }
         } catch (Exception e) {
+            System.out.println("Exepciòn" + e);
             if (tx != null) {
                 tx.rollback();
             }

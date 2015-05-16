@@ -296,4 +296,9 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return FACADEServiceLocator.getExamenAsignadoFACADE()
                 .obtenerExamenAsignado(id);
     }
+
+    @Override
+    public boolean verificarExistencia(TemaDTO tema) throws RemoteException {
+        return FACADEServiceLocator.getTemaFACADE().verificarExistencia(tema);
+    }
 }
