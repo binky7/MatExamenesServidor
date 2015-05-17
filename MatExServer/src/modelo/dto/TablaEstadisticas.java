@@ -16,10 +16,10 @@ import javax.swing.table.AbstractTableModel;
  */
 public class TablaEstadisticas extends AbstractTableModel {
     
-    private final String[] names;
-    private final Object[][] data;
+    private final String[] columnas;
+    private final Object[][] datos;
     
-    private ObservableList<BarChart.Series> bcData;
+    private ObservableList<BarChart.Series> bcDatos;
 //    private String[] names = {"Leonardo", "Angel", "Juan"};
 // 
 //    private Object[][] data = {
@@ -28,54 +28,54 @@ public class TablaEstadisticas extends AbstractTableModel {
 //            {new Double(85)}
 //        };
 
-    public TablaEstadisticas(String[] columns, Object[][] data) {
+    public TablaEstadisticas(String[] columnas, Object[][] datos) {
         
-        names = columns;
-        this.data = data;
+        this.columnas = columnas;
+        this.datos = datos;
     }
 
-    public ObservableList<BarChart.Series> getBarChartData() {
+    public ObservableList<BarChart.Series> getBarChartDatos() {
         
-        if (bcData == null) {
-            bcData = FXCollections.<BarChart.Series>observableArrayList();
-            for (int row = 0; row < getRowCount(); row++) {
+        if (bcDatos == null) {
+            bcDatos = FXCollections.<BarChart.Series>observableArrayList();
+            for (int fila = 0; fila < getRowCount(); fila++) {
                 ObservableList<BarChart.Data> series =
 FXCollections.<BarChart.Data>observableArrayList();
-                for (int column = 0; column < getColumnCount(); column++) {
-                    series.add(new BarChart.Data(getColumnName(column),
-getValueAt(row, column)));
+                for (int columna = 0; columna < getColumnCount(); columna++) {
+                    series.add(new BarChart.Data(getColumnName(columna),
+getValueAt(fila, columna)));
                 }
-                bcData.add(new BarChart.Series(series));
+                bcDatos.add(new BarChart.Series(series));
             }
         }
-        return bcData;
+        return bcDatos;
     }
     
     public double getTickUnit() {
         return 1000;
     }
-    public List<String> getColumnNames() {
-        return Arrays.asList(names);
+    public List<String> getColumnas() {
+        return Arrays.asList(columnas);
     }
 
     @Override
     public int getRowCount() {
-        return data.length;
+        return datos.length;
     }
 
     @Override
     public int getColumnCount() {
-        return names.length;
+        return columnas.length;
     }
 
     @Override
     public Object getValueAt(int row, int column) {
-        return data[row][column];
+        return datos[row][column];
     }
 
     @Override
     public String getColumnName(int column) {
-        return names[column];
+        return columnas[column];
     }
 
     @Override
@@ -91,7 +91,7 @@ getValueAt(row, column)));
     @Override
     public void setValueAt(Object value, int row, int column) {
         if (value instanceof Double) {
-            data[row][column] = (Double)value;
+            datos[row][column] = (Double)value;
         }
 
         fireTableCellUpdated(row, column);
