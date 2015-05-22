@@ -396,11 +396,11 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             tx = s.beginTransaction();
             
             Criteria c = s.createCriteria(ExamenAsignadoDTO.class, "examen")
-                    .add(Restrictions.idEq(id))
-                    .setFetchMode("examen.reactivos", FetchMode.JOIN);
+                    .add(Restrictions.idEq(id));
+//                    .setFetchMode("examen.reactivos", FetchMode.JOIN);
             
             examen = (ExamenAsignadoDTO) c.uniqueResult();
-            
+            Hibernate.initialize(examen.getReactivos());
             tx.commit();
             
         } catch(StaleStateException ex) {

@@ -117,6 +117,12 @@ public interface Persistencia extends Remote {
 
     List<UsuarioDTO> obtenerAlumnosPorApellido(String apellidoPaterno)
             throws RemoteException;
+    
+    List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno)
+            throws RemoteException;
+
+    List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre)
+            throws RemoteException;
 
     /**
      * Obtiene el reactivo completo al que pertenece el id ingresado

@@ -168,6 +168,26 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
         return usuarios;
     }
+    
+    @Override
+    public List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno) throws RemoteException {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = FACADEServiceLocator.getUsuarioFACADE()
+                .obtenerAlumnosPorApellidoM(apellidoMaterno);
+
+        return usuarios;
+    }
+
+    @Override
+    public List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre) throws RemoteException {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = FACADEServiceLocator.getUsuarioFACADE()
+                .obtenerAlumnosPorNombre(nombre);
+
+        return usuarios;
+    }
 
     @Override
     public List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre)
@@ -286,7 +306,8 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public boolean verificarExistencia(GrupoDTO grupo)
             throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return FACADEServiceLocator.getGrupoFACADE()
+                .verificarExistencia(grupo);
     }
 
     @Override

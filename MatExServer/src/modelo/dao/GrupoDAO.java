@@ -197,4 +197,45 @@ public class GrupoDAO extends BaseDAO<GrupoDTO, Integer> {
 
         return alumnos;
     }
+    
+    public boolean existe(GrupoDTO grupo) {
+        Session s = getSession();
+        Transaction tx = null;
+        GrupoDTO objGrupo;
+        boolean existe = false;
+        
+        if(s == null) {
+            System.out.println("Session nula");
+        }
+        
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los temas de este curso
+            //Todo query, modificacion, eliminacion e insercion debe estar 
+            //enmedio de este codigo
+            Criteria c = s.createCriteria(GrupoDTO.class);
+            c.setMaxResults(1);
+            c.add(Restrictions.eq("grado", grupo.getGrado()));
+            c.add(Restrictions.eq("nombre", grupo.getNombre()));
+            c.add(Restrictions.eq("turno", grupo.getTurno()));            
+            objGrupo = (GrupoDTO)c.uniqueResult();
+            
+            if(objGrupo != null) {
+                existe = true;
+            } else {
+                existe = false;
+            }
+            
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return existe;
+    }
 }

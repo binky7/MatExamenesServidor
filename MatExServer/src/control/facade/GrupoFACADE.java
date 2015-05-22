@@ -32,4 +32,8 @@ public class GrupoFACADE extends BaseFACADE<GrupoDTO, Integer>{
     public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo) {
         return DAOServiceLocator.getGrupoDAO().obtenerSoloAlumnos(grupo);
     }
+    
+    public boolean verificarExistencia(GrupoDTO grupo) {
+        return DAOServiceLocator.getGrupoDAO().existe(grupo);
+    }
 }
