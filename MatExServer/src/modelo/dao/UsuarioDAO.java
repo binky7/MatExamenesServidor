@@ -56,6 +56,39 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    public List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+
+            usuarios = s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.or(
+                                    Restrictions.like("apellidoPaterno", nombre),
+                                    Restrictions.like("apellidoMaterno", nombre),
+                                    Restrictions.like("nombre", nombre)))
+                    .list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido, Tipo tipo) {
         Session s = getSession();
         Transaction tx = null;

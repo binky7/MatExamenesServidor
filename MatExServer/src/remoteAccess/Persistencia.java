@@ -49,7 +49,7 @@ public interface Persistencia extends Remote {
     List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno,
             Tipo tipo) throws RemoteException;
 
-    List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno)
+    List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre)
             throws RemoteException;
     
     List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo)

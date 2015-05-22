@@ -16,11 +16,11 @@ import modelo.dto.UsuarioDTO.Tipo;
  */
 public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
 
-    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido) {
+    public List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre) {
         List<UsuarioDTO> usuarios;
 
         usuarios = DAOServiceLocator.getUsuarioDAO()
-                .obtenerUsuariosPorApellido(apellido);
+                .obtenerUsuariosPorNombreOApellidos(nombre);
 
         return usuarios;
     }

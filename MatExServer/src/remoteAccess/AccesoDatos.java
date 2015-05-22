@@ -112,12 +112,12 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno)
+    public List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre)
             throws RemoteException {
         List<UsuarioDTO> usuarios;
 
         usuarios = FACADEServiceLocator.getUsuarioFACADE()
-                .obtenerUsuariosPorApellido(apellidoPaterno);
+                .obtenerUsuariosPorNombreOApellidos(nombre);
 
         return usuarios;
     }
