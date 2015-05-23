@@ -218,10 +218,10 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
         return usuarios;
     }
 
-    public UsuarioDTO obtener(String usuario) {
+    public UsuarioDTO obtener(String unUsuario) {
         Session s = getSession();
         Transaction tx = null;
-        UsuarioDTO _usuario;
+        UsuarioDTO usuario;
 
         if (s == null) {
             System.out.println("Session nula, regresando null....");
@@ -232,19 +232,19 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             tx = s.beginTransaction();
             //Obtiene todos los objetos que concuenrden con el apellido
 
-            _usuario = (UsuarioDTO) s.createCriteria(UsuarioDTO.class)
-                    .add(Restrictions.eq("usuario", usuario)).uniqueResult();
+            usuario = (UsuarioDTO) s.createCriteria(UsuarioDTO.class)
+                    .add(Restrictions.eq("usuario", unUsuario)).uniqueResult();
 
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
             }
-            _usuario = null;
+            usuario = null;
         } finally {
             s.close();
             System.out.println("Session cerrada");
         }
-        return _usuario;
+        return usuario;
     }
 }

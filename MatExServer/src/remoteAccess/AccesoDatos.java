@@ -84,10 +84,10 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     @Override
-    public UsuarioDTO obtenerUsuario(String usuario) throws RemoteException {
-        UsuarioDTO _usuario;
-        _usuario = FACADEServiceLocator.getUsuarioFACADE().obtenerEntidad(usuario);
-        return _usuario;
+    public UsuarioDTO obtenerUsuario(String unUsuario) throws RemoteException {
+        UsuarioDTO usuario;
+        usuario = FACADEServiceLocator.getUsuarioFACADE().obtenerEntidad(unUsuario);
+        return usuario;
     }
 
     @Override
