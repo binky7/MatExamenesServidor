@@ -1,7 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jesús Donaldo Osornio Hernández
+ *
+ * This file is part of MatExamenes.
+ *
+ * MatExamenes is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * MatExamenes is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 package modelo.dto;
 
@@ -23,21 +37,50 @@ import javax.persistence.Temporal;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 /**
- *
- * @author Jesus Donaldo
+ * Esta clase entidad almacena los datos del Reactivo
+ * 
+ * @author Jesus Donaldo Osornio Hernández
+ * @version 1 18 Mayo 2015
  */
 @Entity
 @Table(name = "reactivo")
 public class ReactivoDTO implements Serializable {
     
+    /**
+     * El id del reactivo
+     */
     private int id;
+    /**
+     * El nombre del reactivo
+     */
     private String nombre;
+    /**
+     * El tema del reactivo
+     */
     private TemaDTO tema;
+    /**
+     * La redacción del reactivo
+     */
     private String redaccion;
+    /**
+     * La respuesta del reactivo
+     */
     private String respuesta;
+    /**
+     * Las opciones del reactivo
+     */
     private List<String> opciones = new ArrayList<String>();
+    /**
+     * La fecha de creación del reactivo
+     */
     private Date fechaCreacion;
+    /**
+     * La fecha de última modificación del reactivo
+     */
     private Date fechaModificacion;
+    /**
+     * El autor del reactivo
+     */
     private UsuarioDTO autor;
 
     
@@ -45,14 +88,14 @@ public class ReactivoDTO implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true, length = 11)
     /**
-     * @return the id
+     * @return el id del reactivo
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param id el id a guardar
      */
     public void setId(int id) {
         this.id = id;
@@ -60,14 +103,14 @@ public class ReactivoDTO implements Serializable {
 
     @Column(name = "nombre", nullable = false, length = 50)
     /**
-     * @return the nombre
+     * @return el nombre del reactivo
      */
     public String getNombre() {
         return nombre;
     }
 
     /**
-     * @param nombre the nombre to set
+     * @param nombre el nombre a guardar
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -76,14 +119,14 @@ public class ReactivoDTO implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "idTema", nullable = false)
     /**
-     * @return the tema
+     * @return el tema del reactivo
      */
     public TemaDTO getTema() {
         return tema;
     }
 
     /**
-     * @param tema the tema to set
+     * @param tema el tema a guardar
      */
     public void setTema(TemaDTO tema) {
         this.tema = tema;
@@ -91,14 +134,14 @@ public class ReactivoDTO implements Serializable {
 
     @Column(name = "redaccion", nullable = false, length = 1000)
     /**
-     * @return the redaccion
+     * @return la redacción del reactivo
      */
     public String getRedaccion() {
         return redaccion;
     }
 
     /**
-     * @param redaccion the redaccion to set
+     * @param redaccion la redacción a guardar
      */
     public void setRedaccion(String redaccion) {
         this.redaccion = redaccion;
@@ -106,14 +149,14 @@ public class ReactivoDTO implements Serializable {
 
     @Column(name = "respuesta", nullable = false, length = 250)
     /**
-     * @return the respuesta
+     * @return la respuesta del reactivo
      */
     public String getRespuesta() {
         return respuesta;
     }
 
     /**
-     * @param respuesta the respuesta to set
+     * @param respuesta la respuesta a guardar
      */
     public void setRespuesta(String respuesta) {
         this.respuesta = respuesta;
@@ -126,14 +169,14 @@ public class ReactivoDTO implements Serializable {
    )
    @Column(name="opcion", nullable = false, length = 250)
     /**
-     * @return the opciones
+     * @return las opciones del reactivo
      */
     public List<String> getOpciones() {
         return opciones;
     }
 
     /**
-     * @param opciones the opciones to set
+     * @param opciones las opciones a guardar
      */
     public void setOpciones(List<String> opciones) {
         this.opciones = opciones;
@@ -142,14 +185,14 @@ public class ReactivoDTO implements Serializable {
     @Temporal(value = TIMESTAMP)
     @Column(name = "fechaCreacion", nullable = false)
     /**
-     * @return the fechaCreacion
+     * @return la fecha de creación del reactivo
      */
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
 
     /**
-     * @param fechaCreacion the fechaCreacion to set
+     * @param fechaCreacion la fecha de creación a guardar
      */
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
@@ -158,14 +201,14 @@ public class ReactivoDTO implements Serializable {
     @Temporal(value = TIMESTAMP)
     @Column(name = "fechaModificacion", nullable = false)
     /**
-     * @return the fechaModificacion
+     * @return la fecha de última modificación del reactivo
      */
     public Date getFechaModificacion() {
         return fechaModificacion;
     }
 
     /**
-     * @param fechaModificacion the fechaModificacion to set
+     * @param fechaModificacion la fecha de modificación a guardar
      */
     public void setFechaModificacion(Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
@@ -174,19 +217,26 @@ public class ReactivoDTO implements Serializable {
     @ManyToOne
     @JoinColumn(name = "idAutor")
     /**
-     * @return the autor
+     * @return el autor del reactivo
      */
     public UsuarioDTO getAutor() {
         return autor;
     }
 
     /**
-     * @param autor the autor to set
+     * @param autor el autor a guardar
      */
     public void setAutor(UsuarioDTO autor) {
         this.autor = autor;
     }
     
+    /**
+     * Sobreescribir el método equals para poder ser utilizado al ordenar con
+     * Collections
+     * 
+     * @param o el objeto a comparar con este
+     * @return true si el objeto es igual a éste, false si no
+     */
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof ReactivoDTO))
@@ -196,6 +246,12 @@ public class ReactivoDTO implements Serializable {
         return r.id == id;
     }
 
+    /**
+     * Sobreescribir el método hashCode para poder ser utilizado al ordenar con
+     * Collections
+     * 
+     * @return el hashCode de este objeto
+     */
     @Override
     public int hashCode() {
         int hash = 3;
