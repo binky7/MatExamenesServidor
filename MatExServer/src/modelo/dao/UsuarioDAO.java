@@ -24,6 +24,16 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             + "UsuarioDTO AS a2 WHERE a2 NOT IN"
             + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = "
             + "'Alumno' and a2.apellidoPaterno like ?";
+    
+    private final String GET_ALUMNOS_SIN_ASIGNAR_APPM = "SELECT DISTINCT a2 FROM "
+            + "UsuarioDTO AS a2 WHERE a2 NOT IN"
+            + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = "
+            + "'Alumno' and a2.apellidoMaterno like ?";
+
+    private final String GET_ALUMNOS_SIN_ASIGNAR_NOM = "SELECT DISTINCT a2 FROM "
+            + "UsuarioDTO AS a2 WHERE a2 NOT IN"
+            + "(SELECT ELEMENTS(g.alumnos) FROM GrupoDTO AS g) and a2.tipo = "
+            + "'Alumno' and a2.nombre like ?";
 
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido) {
         Session s = getSession();
@@ -203,6 +213,66 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             //Obtiene todos los objetos que concuenrden con el apellido
             Query q = s.createQuery(GET_ALUMNOS_SIN_ASIGNAR);
             q.setString(0, "%" + apellido + "%");
+            usuarios = q.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            //s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+    
+    public List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+            Query q = s.createQuery(GET_ALUMNOS_SIN_ASIGNAR_APPM);
+            q.setString(0, "%" + apellidoMaterno + "%");
+            usuarios = q.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            usuarios = null;
+        } finally {
+            //s.close();
+            System.out.println("Session cerrada");
+        }
+        return usuarios;
+    }
+
+    public List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<UsuarioDTO> usuarios;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            //Obtiene todos los objetos que concuenrden con el apellido
+            Query q = s.createQuery(GET_ALUMNOS_SIN_ASIGNAR_NOM);
+            q.setString(0, "%" + nombre + "%");
             usuarios = q.list();
 
             tx.commit();

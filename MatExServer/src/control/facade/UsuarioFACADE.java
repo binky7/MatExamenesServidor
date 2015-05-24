@@ -60,6 +60,24 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
 
         return usuarios;
     }
+    
+    public List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno) {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = DAOServiceLocator.getUsuarioDAO()
+                .obtenerAlumnosPorApellidoM(apellidoMaterno);
+
+        return usuarios;
+    }
+
+    public List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre) {
+        List<UsuarioDTO> usuarios;
+
+        usuarios = DAOServiceLocator.getUsuarioDAO()
+                .obtenerAlumnosPorNombre(nombre);
+
+        return usuarios;
+    }
 
     public UsuarioDTO obtenerEntidad(String unUsuario) {
         UsuarioDTO usuario;
