@@ -71,9 +71,9 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
 
             usuarios = s.createCriteria(UsuarioDTO.class)
                     .add(Restrictions.or(
-                                    Restrictions.like("apellidoPaterno", nombre),
-                                    Restrictions.like("apellidoMaterno", nombre),
-                                    Restrictions.like("nombre", nombre)))
+                                    Restrictions.like("apellidoPaterno", "%" + nombre + "%"),
+                                    Restrictions.like("apellidoMaterno", "%" + nombre + "%"),
+                                    Restrictions.like("nombre", "%" + nombre + "%")))
                     .list();
 
             tx.commit();
