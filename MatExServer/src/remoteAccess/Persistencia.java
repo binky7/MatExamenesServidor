@@ -39,7 +39,7 @@ import modelo.dto.UsuarioDTO.Tipo;
 /**
  * Esta interface se encarga de conectar la aplicación del cliente con la
  * aplicación del servidor de modo remoto y para acceder a sus métodos
- * 
+ *
  * @author Jesus Donaldo Osornio Hernández
  * @version 1 18 Mayo 2015
  */
@@ -47,7 +47,7 @@ public interface Persistencia extends Remote {
 
     /**
      * Obtiene el total de entidades existentes de la clase especificada
-     * 
+     *
      * @param <T> La entidad obtenida
      * @param clazz la clase de la entidad que se quiere obtener
      * @return la lista de entidades que se obtuvieron, null en caso de no
@@ -58,7 +58,7 @@ public interface Persistencia extends Remote {
 
     /**
      * Almacena la entidad ingresada y la vuelve persistente
-     * 
+     *
      * @param <T> La entidad a guardar
      * @param <ID> el id resultante de la entidad
      * @param entidad el objeto a ser persistido
@@ -70,22 +70,22 @@ public interface Persistencia extends Remote {
 
     /**
      * Actualiza la entidad ingresada en la persistencia
-     * 
+     *
      * @param <T> La entidad a actualizar
      * @param entidad el objeto a actualizar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     <T> boolean modificarEntidad(T entidad) throws RemoteException;
 
     /**
      * Elimina la entidad ingresada de la persistencia
-     * 
+     *
      * @param <T> la entidad a eliminar
      * @param entidad el objeto a eliminar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     <T> boolean eliminarEntidad(T entidad) throws RemoteException;
@@ -94,6 +94,13 @@ public interface Persistencia extends Remote {
 
     CursoDTO obtenerCurso(int idCurso) throws RemoteException;
 
+    /**
+     * Obtiene los cursos que pertenecen a un maestro.
+     *
+     * @param maestro el maestro.
+     * @return lista de cursos.
+     * @throws RemoteException
+     */
     List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
             throws RemoteException;
 
@@ -108,25 +115,46 @@ public interface Persistencia extends Remote {
 
     List<UsuarioDTO> obtenerUsuariosPorNombreOApellidos(String nombre)
             throws RemoteException;
-    
+
     List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo)
             throws RemoteException;
-    
+
     List<UsuarioDTO> obtenerUsuariosPorNombre(String nombre, Tipo tipo)
             throws RemoteException;
 
+    /**
+     * Obtiene los alumnos que contienen el apellido paterno ingresado.
+     *
+     * @param apellidoPaterno el apellido paterno que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     List<UsuarioDTO> obtenerAlumnosPorApellido(String apellidoPaterno)
             throws RemoteException;
-    
+
+    /**
+     * Obtiene los alumnos que contienen el apellido materno ingresado.
+     *
+     * @param apellidoMaterno el apellido materno que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno)
             throws RemoteException;
 
+    /**
+     * Obtiene los alumnos que contienen el nombre ingresado.
+     *
+     * @param nombre el nombre que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre)
             throws RemoteException;
 
     /**
      * Obtiene el reactivo completo al que pertenece el id ingresado
-     * 
+     *
      * @param idReactivo el id del reactivo a obtener
      * @return el objeto ReactivoDTO completo, con todas sus relaciones, o null
      * en caso de que no exista
@@ -136,26 +164,27 @@ public interface Persistencia extends Remote {
 
     /**
      * Obtiene todos los reactivos del tema ingresado
-     * 
+     *
      * @param tema el objeto TemaDTO del que se quieren obtener los reactivos
-     * @return una lista de ReactivoDTO del tema ingresado, o null en caso de que
-     * no exista ningún reactivo.
-     * 
+     * @return una lista de ReactivoDTO del tema ingresado, o null en caso de
+     * que no exista ningún reactivo.
+     *
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     List<ReactivoDTO> obtenerReactivosPorTema(TemaDTO tema)
             throws RemoteException;
 
     /**
-     * Obtiene la cantidad de reactivos por tema especificada de manera aleatoria
-     * 
+     * Obtiene la cantidad de reactivos por tema especificada de manera
+     * aleatoria
+     *
      * @param temas la lista de TemaDTO de donde se obtendrán los reactivos
      * aleatorios
      * @param cantidades la lista de cantidades de cada tema la cuál indica
      * cuantos reactivos se seleccionarán por cada tema
-     * @return una lista de ReactivoDTO seleccionados aleatoriamente de cada tema
-     * o regresa null en caso de que se especifiquen cantidades por tema mayores
-     * de las que existen
+     * @return una lista de ReactivoDTO seleccionados aleatoriamente de cada
+     * tema o regresa null en caso de que se especifiquen cantidades por tema
+     * mayores de las que existen
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     List<ReactivoDTO> obtenerReactivosAleatorios(List<TemaDTO> temas,
@@ -163,23 +192,52 @@ public interface Persistencia extends Remote {
 
     /**
      * Elimina la lista de reactivos ingresada de la persistencia
-     * 
+     *
      * @param reactivos la lista de ReactivoDTO que se desea eliminar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     boolean eliminarReactivos(List<ReactivoDTO> reactivos)
             throws RemoteException;
 
+    /**
+     * Obtiene el grupo que conincide con el id ingresado.
+     *
+     * @param idGrupo el id del grupo.
+     * @return el objeto GrupoDTO.
+     * @throws RemoteException
+     */
     GrupoDTO obtenerGrupo(int idGrupo) throws RemoteException;
 
+    /**
+     * Obtiene los alumnos pertenecientes al grupo seleccionado.
+     *
+     * @param grupo el grupo.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo)
             throws RemoteException;
 
+    /**
+     * Obtiene los grupos en los que el maestro imparte el curso ingresado.
+     *
+     * @param curso el curso.
+     * @param maestro el maestro.
+     * @return lista de grupos.
+     * @throws RemoteException
+     */
     List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
             throws RemoteException;
 
+    /**
+     * Verifica la existencia del grupo ingresado.
+     *
+     * @param grupo el grupo a buscar.
+     * @return verdadero si existe o falso si no existe.
+     * @throws RemoteException
+     */
     boolean verificarExistencia(GrupoDTO grupo) throws RemoteException;
 
     ExamenDTO obtenerExamen(int idExamen) throws RemoteException;
@@ -207,15 +265,16 @@ public interface Persistencia extends Remote {
 
     /**
      * Obtiene el examen con unicamente sus claves
+     *
      * @param idExamen el id del examen que se quiere obtener
      * @return el objeto examen con la lista de claves inicializada
      * @throws java.rmi.RemoteException
      */
     ExamenDTO obtenerExamenIncompleto(int idExamen) throws RemoteException;
-    
+
     ClaveExamenDTO obtenerClaveExamen(ClaveExamenPK idClave)
             throws RemoteException;
-    
+
     ExamenAsignadoDTO obtenerExamenContestado(ExamenAsignadoPK id)
             throws RemoteException;
 
@@ -227,9 +286,9 @@ public interface Persistencia extends Remote {
 
     ExamenAsignadoDTO obtenerExamenAsignado(ExamenAsignadoPK id)
             throws RemoteException;
-    
+
     CursoDTO obtenerCursoPorTema(TemaDTO tema)
             throws RemoteException;
-    
-    boolean  verificarExistencia(TemaDTO tema) throws RemoteException;
+
+    boolean verificarExistencia(TemaDTO tema) throws RemoteException;
 }

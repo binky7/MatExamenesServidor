@@ -41,7 +41,7 @@ import modelo.dto.UsuarioDTO.Tipo;
  * Esta clase tiene la función de implementar todos los métodos de la interface
  * Persistencia para proporcionar un servicio de almacenamiento de datos por
  * medio de los distintos facades de la aplicación
- * 
+ *
  * @author Jesus Donaldo Osornio Hernández
  * @version 1 18 Mayo 2015
  */
@@ -49,6 +49,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Crea un nuevo objeto AccesoDatos
+     *
      * @throws java.rmi.RemoteException en caso de que ocurra un error remoto
      */
     public AccesoDatos() throws RemoteException {
@@ -57,7 +58,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Obtiene el total de entidades existentes de la clase especificada
-     * 
+     *
      * @param <T> La entidad obtenida
      * @param clazz la clase de la entidad que se quiere obtener
      * @return la lista de entidades que se obtuvieron, null en caso de no
@@ -71,7 +72,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Almacena la entidad ingresada y la vuelve persistente
-     * 
+     *
      * @param <T> La entidad a guardar
      * @param <ID> el id resultante de la entidad
      * @param entidad el objeto a ser persistido
@@ -87,11 +88,11 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Actualiza la entidad ingresada en la persistencia
-     * 
+     *
      * @param <T> La entidad a actualizar
      * @param entidad el objeto a actualizar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     @Override
@@ -101,11 +102,11 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Elimina la entidad ingresada de la persistencia
-     * 
+     *
      * @param <T> la entidad a eliminar
      * @param entidad el objeto a eliminar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     @Override
@@ -129,6 +130,13 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Obtiene los cursos que imparte un maestro.
+     *
+     * @param maestro el maestro.
+     * @return lista de cursos.
+     * @throws RemoteException
+     */
     @Override
     public List<CursoDTO> obtenerCursosDeGrupo(UsuarioDTO maestro)
             throws RemoteException {
@@ -159,6 +167,13 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return usuarios;
     }
 
+    /**
+     * Obtiene los alumnos que contienen el apellido paterno ingresado.
+     *
+     * @param apellidoPaterno el apellido paterno que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     @Override
     public List<UsuarioDTO> obtenerAlumnosPorApellido(String apellidoPaterno) throws RemoteException {
         List<UsuarioDTO> usuarios;
@@ -168,7 +183,14 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
         return usuarios;
     }
-    
+
+    /**
+     * Obtiene los alumnos que contienen el apellido materno ingresado.
+     *
+     * @param apellidoMaterno el apellido materno que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     @Override
     public List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno) throws RemoteException {
         List<UsuarioDTO> usuarios;
@@ -179,6 +201,13 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return usuarios;
     }
 
+    /**
+     * Obtiene los alumnos que contienen el nombre ingresado.
+     *
+     * @param nombre el nombre que se busca.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     @Override
     public List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre) throws RemoteException {
         List<UsuarioDTO> usuarios;
@@ -222,7 +251,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Obtiene el reactivo completo al que pertenece el id ingresado
-     * 
+     *
      * @param idReactivo el id del reactivo a obtener
      * @return el objeto ReactivoDTO completo, con todas sus relaciones, o null
      * en caso de que no exista
@@ -236,11 +265,11 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Obtiene todos los reactivos del tema ingresado
-     * 
+     *
      * @param tema el objeto TemaDTO del que se quieren obtener los reactivos
-     * @return una lista de ReactivoDTO del tema ingresado, o null en caso de que
-     * no exista ningún reactivo.
-     * 
+     * @return una lista de ReactivoDTO del tema ingresado, o null en caso de
+     * que no exista ningún reactivo.
+     *
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     @Override
@@ -251,15 +280,16 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     }
 
     /**
-     * Obtiene la cantidad de reactivos por tema especificada de manera aleatoria
-     * 
+     * Obtiene la cantidad de reactivos por tema especificada de manera
+     * aleatoria
+     *
      * @param temas la lista de TemaDTO de donde se obtendrán los reactivos
      * aleatorios
      * @param cantidades la lista de cantidades de cada tema la cuál indica
      * cuantos reactivos se seleccionarán por cada tema
-     * @return una lista de ReactivoDTO seleccionados aleatoriamente de cada tema
-     * o regresa null en caso de que se especifiquen cantidades por tema mayores
-     * de las que existen
+     * @return una lista de ReactivoDTO seleccionados aleatoriamente de cada
+     * tema o regresa null en caso de que se especifiquen cantidades por tema
+     * mayores de las que existen
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     @Override
@@ -271,10 +301,10 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
 
     /**
      * Elimina la lista de reactivos ingresada de la persistencia
-     * 
+     *
      * @param reactivos la lista de ReactivoDTO que se desea eliminar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente, false si ocurrió un
+     * error
      * @throws RemoteException en caso de que ocurra un error remoto
      */
     @Override
@@ -284,17 +314,39 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
                 .eliminarReactivos(reactivos);
     }
 
+    /**
+     * Obtiene el grupo que conincide con el id ingresado.
+     *
+     * @param idGrupo el id del grupo.
+     * @return el objeto GrupoDTO.
+     * @throws RemoteException
+     */
     @Override
     public GrupoDTO obtenerGrupo(int idGrupo) throws RemoteException {
         return FACADEServiceLocator.getGrupoFACADE().obtenerGrupo(idGrupo);
     }
 
+    /**
+     * Obtiene los alumnos pertenecientes al grupo seleccionado.
+     *
+     * @param grupo el grupo.
+     * @return lista de alumnos.
+     * @throws RemoteException
+     */
     @Override
     public List<UsuarioDTO> obtenerAlumnosDeGrupo(GrupoDTO grupo)
             throws RemoteException {
         return FACADEServiceLocator.getGrupoFACADE().obtenerGrupo(grupo.getId()).getAlumnos();
     }
 
+    /**
+     * Obtiene los grupos en los que el maestro imparte el curso ingresado.
+     *
+     * @param curso el curso.
+     * @param maestro el maestro.
+     * @return lista de grupos.
+     * @throws RemoteException
+     */
     @Override
     public List<GrupoDTO> obtenerGruposPorCurso(CursoDTO curso, UsuarioDTO maestro)
             throws RemoteException {
@@ -303,6 +355,13 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
                 .obtenerGruposPorCurso(curso, maestro);
     }
 
+    /**
+     * Verifica la existencia del grupo ingresado.
+     *
+     * @param grupo el grupo a buscar.
+     * @return verdadero si existe o falso si no existe.
+     * @throws RemoteException
+     */
     @Override
     public boolean verificarExistencia(GrupoDTO grupo)
             throws RemoteException {
