@@ -67,9 +67,9 @@ public class ReactivoDTO implements Serializable {
      */
     private String respuesta;
     /**
-     * Las opciones del reactivo
+     * Las opciones incorrectas del reactivo
      */
-    private List<String> opciones = new ArrayList<String>();
+    private List<String> opcionesIncorrectas = new ArrayList<String>();
     /**
      * La fecha de creación del reactivo
      */
@@ -164,22 +164,22 @@ public class ReactivoDTO implements Serializable {
 
    @ElementCollection
    @CollectionTable(
-           name="opciones_reactivo",
+           name="opciones_incorrectas_reactivo",
            joinColumns=@JoinColumn(name="idReactivo")
    )
    @Column(name="opcion", nullable = false, length = 250)
     /**
-     * @return las opciones del reactivo
+     * @return las opciones incorrectas del reactivo
      */
-    public List<String> getOpciones() {
-        return opciones;
+    public List<String> getOpcionesIncorrectas() {
+        return opcionesIncorrectas;
     }
 
     /**
-     * @param opciones las opciones a guardar
+     * @param opcionesIncorrectas las opciones incorrectas a guardar
      */
-    public void setOpciones(List<String> opciones) {
-        this.opciones = opciones;
+    public void setOpcionesIncorrectas(List<String> opcionesIncorrectas) {
+        this.opcionesIncorrectas = opcionesIncorrectas;
     }
 
     @Temporal(value = TIMESTAMP)

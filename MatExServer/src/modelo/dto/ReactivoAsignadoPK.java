@@ -1,7 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jesús Donaldo Osornio Hernández
+ *
+ * This file is part of MatExamenes.
+ *
+ * MatExamenes is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * MatExamenes is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 package modelo.dto;
 
@@ -9,43 +23,62 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 /**
- *
- * @author Jesus Donaldo
+ * Esta clase almacena los datos de la llave primaria del reactivo asignado.
+ * Esto es el id del examen asignado y el id del reactivo que forman la relación
+ * del reactivo asignado
+ * 
+ * @author Jesus Donaldo Osornio Hernández
+ * @version 1 18 Mayo 2015
  */
 @Embeddable
 public class ReactivoAsignadoPK implements Serializable {
     
+    /**
+     * La llave compuesta del Examen Asignado al que pertenece este reactivo
+     * asignado
+     */
     private ExamenAsignadoPK idExamenAsignado;
+    /**
+     * Identificador del reactivo como único dentro del examen asignado
+     */
     private int idReactivo;
 
     /**
-     * @return the idExamenAsignado
+     * @return la llave primaria del examen asignado al que pertenece el reactivo
      */
     public ExamenAsignadoPK getIdExamenAsignado() {
         return idExamenAsignado;
     }
 
     /**
-     * @param idExamenAsignado the idExamenAsignado to set
+     * @param idExamenAsignado la llave primaria del examen asignado a almacenar
      */
     public void setIdExamenAsignado(ExamenAsignadoPK idExamenAsignado) {
         this.idExamenAsignado = idExamenAsignado;
     }
     
     /**
-     * @return the idReactivo
+     * @return el identificador del reactivo
      */
     public int getIdReactivo() {
         return idReactivo;
     }
 
     /**
-     * @param idReactivo the idReactivo to set
+     * @param idReactivo el identificador a almacenar
      */
     public void setIdReactivo(int idReactivo) {
         this.idReactivo = idReactivo;
     }
     
+    /**
+     * Este método sobreescribe el método hashCode para que el objeto pueda ser
+     * comparable como una llave primaria única. Al ser una llave primaria
+     * compuesta su identidad se determina con la combinación de todos
+     * los atributos que compongan esta clave.
+     * 
+     * @return el código hash que identifica únicamente a esta llave compuesta.
+     */
     @Override
     public int hashCode() {
         final int prime = 37;
@@ -56,8 +89,17 @@ public class ReactivoAsignadoPK implements Serializable {
         return result;
     }
  
-    /** (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * Este método sobreescribe el método equals para que el objeto pueda ser
+     * comparable como una llave primaria única. Al ser una llave primaria
+     * compuesta su identidad se determina con la combinación de todos
+     * los atributos que compongan esta clave.
+     * 
+     * @param obj el objeto que debe ser ReactivoAsignadoPK a comparar con esta
+     * llave compuesta
+     * 
+     * @return true si la llave compuesta ingresada es igual a esta llave compuesta
+     * false de lo contrario.
      */
     @Override
     public boolean equals(Object obj) {

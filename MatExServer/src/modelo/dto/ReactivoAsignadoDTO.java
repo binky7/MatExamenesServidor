@@ -1,7 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jesús Donaldo Osornio Hernández
+ *
+ * This file is part of MatExamenes.
+ *
+ * MatExamenes is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * MatExamenes is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 package modelo.dto;
 
@@ -22,19 +36,43 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 /**
- *
- * @author Jesus Donaldo
+ * Esta clase entidad almacena los datos de un Reactivo Asignado específico de
+ * un Examen Asignado. Un Reactivo Asignado contiene las respuestas del alumno
+ * y la respuesta correcta del reactivo, junto con sus opciones. Es una copia
+ * de un ReactivoDTO para asegurarse de que alguna modificación a este no afecte
+ * las respuestas del alumno
+ * 
+ * @author Jesus Donaldo Osornio Hernández
+ * @version 1 18 Mayo 2015
  */
 @Entity
-@Table(name = "reactivoexamenasignado")
+@Table(name = "reactivo_asignado")
 public class ReactivoAsignadoDTO implements Serializable {
     
+    /**
+     * El id del Reactivo Asignado
+     */
     private ReactivoAsignadoPK id;
+    /**
+     * El examen asignado al que pertence este Reactivo Asignado
+     */
     private ExamenAsignadoDTO examen;
+    /**
+     * La redacción del reactivo
+     */
     private String redaccionReactivo;
+    /**
+     * La respuesta correcta del reactivo
+     */
     private String respuestaReactivo;
+    /**
+     * La respuesta del alumno
+     */
     private String respuestaAlumno;
-    private List<String> opcionesReactivo = new ArrayList<String>();
+    /**
+     * Las opciones incorrectas del reactivo
+     */
+    private List<String> opcionesIncorrectas = new ArrayList<String>();
 
     @AttributeOverrides({
         @AttributeOverride(name = "idExamenAsignado.idExamen",
@@ -46,14 +84,14 @@ public class ReactivoAsignadoDTO implements Serializable {
     })
     @EmbeddedId
     /**
-     * @return the id
+     * @return el id del reactivo asignado
      */
     public ReactivoAsignadoPK getId() {
         return id;
     }
 
     /**
-     * @param id the id to set
+     * @param id el id a guardar. Debe contener el idReactivo en ella
      */
     public void setId(ReactivoAsignadoPK id) {
         this.id = id;
@@ -78,14 +116,14 @@ public class ReactivoAsignadoDTO implements Serializable {
         )
     })
     /**
-     * @return the examen
+     * @return el examen asignado al que pertenece el reactivo asignado
      */
     public ExamenAsignadoDTO getExamen() {
         return examen;
     }
 
     /**
-     * @param examen the examen to set
+     * @param examen el examen asignado a guardar
      */
     public void setExamen(ExamenAsignadoDTO examen) {
         this.examen = examen;
@@ -93,14 +131,14 @@ public class ReactivoAsignadoDTO implements Serializable {
 
     @Column(name = "redaccionReactivo", nullable = false, length = 1000)
     /**
-     * @return the redaccionReactivo
+     * @return la redacción del reactivo
      */
     public String getRedaccionReactivo() {
         return redaccionReactivo;
     }
 
     /**
-     * @param redaccionReactivo the redaccionReactivo to set
+     * @param redaccionReactivo la redacción a guardar
      */
     public void setRedaccionReactivo(String redaccionReactivo) {
         this.redaccionReactivo = redaccionReactivo;
@@ -108,14 +146,14 @@ public class ReactivoAsignadoDTO implements Serializable {
 
     @Column(name = "respuestaReactivo", nullable = false, length = 250)
     /**
-     * @return the respuestaReactivo
+     * @return la respuesta del reactivo
      */
     public String getRespuestaReactivo() {
         return respuestaReactivo;
     }
 
     /**
-     * @param respuestaReactivo the respuestaReactivo to set
+     * @param respuestaReactivo la respuesta del reactivo a guardar
      */
     public void setRespuestaReactivo(String respuestaReactivo) {
         this.respuestaReactivo = respuestaReactivo;
@@ -123,14 +161,14 @@ public class ReactivoAsignadoDTO implements Serializable {
 
     @Column(name = "respuestaAlumno", length = 250)
     /**
-     * @return the respuestaAlumno
+     * @return la respuesta del alumno
      */
     public String getRespuestaAlumno() {
         return respuestaAlumno;
     }
 
     /**
-     * @param respuestaAlumno the respuestaAlumno to set
+     * @param respuestaAlumno la respuesta del alumno a guardar
      */
     public void setRespuestaAlumno(String respuestaAlumno) {
         this.respuestaAlumno = respuestaAlumno;
@@ -138,7 +176,7 @@ public class ReactivoAsignadoDTO implements Serializable {
 
    @ElementCollection
    @CollectionTable(
-           name="opciones_reactivoexamenasignado",
+           name="opciones_incorrectas_reactivo_asignado",
            joinColumns = {
                 @JoinColumn(name = "idExamen", referencedColumnName = "idExamen"),
                 @JoinColumn(name = "idAlumno", referencedColumnName = "idAlumno"),
@@ -147,16 +185,16 @@ public class ReactivoAsignadoDTO implements Serializable {
    )
    @Column(name="opcion", nullable = false, length = 250)
     /**
-     * @return the opcionesReactivo
+     * @return las opciones incorrectas del reactivo
      */
-    public List<String> getOpcionesReactivo() {
-        return opcionesReactivo;
+    public List<String> getOpcionesIncorrectas() {
+        return opcionesIncorrectas;
     }
 
     /**
-     * @param opcionesReactivo the opcionesReactivo to set
+     * @param opcionesIncorrectas las opciones incorrectas a guardar
      */
-    public void setOpcionesReactivo(List<String> opcionesReactivo) {
-        this.opcionesReactivo = opcionesReactivo;
+    public void setOpcionesIncorrectas(List<String> opcionesIncorrectas) {
+        this.opcionesIncorrectas = opcionesIncorrectas;
     }
 }

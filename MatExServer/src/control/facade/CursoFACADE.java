@@ -23,7 +23,6 @@ import java.util.List;
 import modelo.dao.DAOServiceLocator;
 import modelo.dto.CursoDTO;
 import modelo.dto.TemaDTO;
-import modelo.dto.UsuarioDTO;
 
 /**
  *

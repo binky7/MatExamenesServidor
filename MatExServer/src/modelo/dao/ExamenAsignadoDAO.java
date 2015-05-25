@@ -1,7 +1,21 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 Jesús Donaldo Osornio Hernández
+ *
+ * This file is part of MatExamenes.
+ *
+ * MatExamenes is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * MatExamenes is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 51
+ * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 package modelo.dao;
 
@@ -27,26 +41,50 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 /**
- *
- * @author Jesus Donaldo
+ * Esta clase es un dao de ExamenAsignadoDTO para los métodos específicos a este
+ * objeto dto, proporciona la funcionalidad necesaria accediendo a la base de
+ * datos
+ * 
+ * @author Jesus Donaldo Osornio Hernández
+ * @version 1 18 Mayo 2015
  */
 public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignadoPK> {
     
+    /**
+     * Esta cadena es un query en hql que regresa el promedio de todo el grupo
+     * ingresado en el examen ingresado.
+     */
     private static final String GET_PROMEDIOS_GRUPO = "SELECT AVG(ea.calificacion) "
             + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
     "WHERE (g = :grupo AND ea.alumno IN ELEMENTS(g.alumnos)) " +
     "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g";
     
+    /**
+     * Esta cadena es un query en hql que regresa el promedio de todo el grado
+     * ingresado en el examen ingresado.
+     */
     private static final String GET_PROMEDIOS_GRADO = "SELECT AVG(ea.calificacion) "
             + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
     "WHERE (g.grado = :grado AND ea.alumno IN ELEMENTS(g.alumnos)) " +
     "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g.grado";
     
+    /**
+     * Esta cadena es un query en hql que regresa el promedio de todo el turno
+     * ingresado en el examen ingresado.
+     */
     private static final String GET_PROMEDIOS_TURNO = "SELECT AVG(ea.calificacion) "
             + "FROM ExamenAsignadoDTO AS ea, GrupoDTO as g " +
     "WHERE (g.turno = :turno AND ea.alumno IN ELEMENTS(g.alumnos)) " +
     "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g.turno";
     
+    /**
+     * Inserta la lista de exámenes asignados y los vuelve persitentes
+     * 
+     * @param examenes la lista de ExamenAsignadoDTO a ser persistida
+     * 
+     * @return true en caso de que la operación se realice correctamente o false
+     * en caso contrario
+     */
     public boolean insertar(List<ExamenAsignadoDTO> examenes) {
         
         Session s = getSession();
@@ -70,19 +108,21 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
                         examen.getAlumno().getId()));
                 
                 if(examenBD == null) {
-                    //No existe asignacion
+                    //No existe asignación
                     examen.setFechaAsignacion(new Date());
                     s.save(examen);
                 }
                 else {
-                        //Remover objeto antiguo
+                    //Existe una asignación
+                        //Remover objeto antigüo
                         s.delete(examenBD);
                         
                         examen.setFechaAsignacion(new Date());
-                        //Actualizar la informacion
+                        //Actualizar la información
                         s.save(examen);
                 }
                 
+                //Guardar los cambios en la base de datos cada 20 inserciones
                 if(i % 20 == 0) {
                     s.flush();
                     s.clear();
@@ -110,7 +150,8 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     
     /**
      * Para obtener el examen que se quiere utilizar en Asignar examenes,
-     * devuelve el examen unicamente con la lista de claves
+     * devuelve el examen únicamente con la lista de claves
+     * 
      * @param idExamen el id del examen seleccionado
      * @return el objeto examen con su lista de claves
      */
@@ -127,6 +168,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
         try {
             tx = s.beginTransaction();
             
+            //Obtener examen con la lista de claves inicializada
             Criteria c = s.createCriteria(ExamenDTO.class)
                     .add(Restrictions.idEq(idExamen))
                     .setFetchMode("claves", FetchMode.JOIN);
@@ -155,6 +197,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     /**
      * Regresa la clave seleccionada con sus reactivos y cada reactivo con sus
      * opciones, para que se puedan asignar los reactivos al ExamenAsignado
+     * 
      * @param idClave el objeto ClaveExamenPK que representa el id de la clave
      * seleccionada
      * @return el objeto ClaveExamenDTO que corresponde al idClave ingresado
@@ -180,7 +223,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             
             //Inicializar las opciones del reactivo
             for(ReactivoDTO reactivo : claveExamen.getReactivos()) {
-                Hibernate.initialize(reactivo.getOpciones());
+                Hibernate.initialize(reactivo.getOpcionesIncorrectas());
             }
             
             tx.commit();
@@ -204,12 +247,14 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     
     /**
      * Obtiene todos los examenes que han sido asignados (pero no contestados)
-     * a un alumno, tambien este metodo valida que no haya examenes almacenados
-     * que el alumno nunca contesto y los cuales ya no son validos por que el
-     * lapso para ser contestados a pasado
+     * a un alumno, tambien este método valida que no haya examenes almacenados
+     * que el alumno nunca contestó y los cuales ya no son válidos porque el
+     * lapso para ser contestados ha pasado
+     * 
      * @param alumno el objeto usuario que representa al alumno, del que se
-     * quiere obtener sus examenes asignados sin contestar
-     * @return una lista de examenes asignados vigentes para ser contestados por
+     * quiere obtener sus exámenes asignados sin contestar
+     * 
+     * @return una lista de exámenes asignados vigentes para ser contestados por
      * el alumno
      */
     public List<ExamenAsignadoDTO> obtenerAsignados(UsuarioDTO alumno) {
@@ -225,6 +270,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
         try {
             tx = s.beginTransaction();
             
+            //Obtener los exámenes del alumno que aún no tengan calificación
             Criteria c = s.createCriteria(ExamenAsignadoDTO.class, "examen")
                     .add(Restrictions.and(
                             Restrictions.eq("examen.alumno", alumno),
@@ -241,9 +287,9 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
                 long tiempoLimite = examen.getTiempo() * 60 * 1000;
                 long hoy = System.currentTimeMillis();
                 
-                //Si ya paso el periodo para contestar el examen
+                //Si ya pasó el periodo para contestar el examen
                 if(hoy >= (fechaAsignacion.getTime() + tiempoLimite)) {
-                    //Ya no sirve tener un examen que nunca se contesto
+                    //Ya no sirve tener un examen que nunca se contestó
                     s.delete(examen);
                     
                     examenes.remove(i);
@@ -274,6 +320,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
      * Obtiene un objeto examen asignado a partir de su id, el objeto contiene
      * todos los reactivos y las opciones del reactivo de ese examen, para poder
      * ser manipulados en Contestar Examen
+     * 
      * @param id el objeto ExamenAsignadoPK que representa el id del
      *  examenAsignado
      * @return el objeto ExamenAsignado que esta asociado al id ingresado
@@ -299,7 +346,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             
             //Inicializar opciones
             for(ReactivoAsignadoDTO reactivo : examen.getReactivos()) {
-                Hibernate.initialize(reactivo.getOpcionesReactivo());
+                Hibernate.initialize(reactivo.getOpcionesIncorrectas());
             }
             
             tx.commit();
@@ -324,6 +371,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     /**
      * Obtiene una lista de examenes contestados de un alumno filtrandose por
      * el curso ingresado
+     * 
      * @param alumno el objeto alumno que representa al alumno del cual se quiere
      * obtener los examenes contestados
      * @param curso el objeto curso el cual sera el filtro para obtener los
@@ -345,6 +393,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
         try {
             tx = s.beginTransaction();
             
+            //Obtener los exámenes contestados de un alumno en el curso ingresado
             Criteria c = s.createCriteria(ExamenAsignadoDTO.class, "examen")
                     .createAlias("examen.examen.curso", "curso")
                     .add(Restrictions.and(
@@ -377,6 +426,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     /**
      * Obtiene un examen contestado asociado al id ingresado, el cual contiene
      * los reactivos del examen contestado.
+     * 
      * @param id el objeto ExamenAsignadoPK que representa el id del examen
      *  asignado
      * @return un objeto ExamenAsignado que representa el examen contestado
@@ -397,9 +447,9 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             
             Criteria c = s.createCriteria(ExamenAsignadoDTO.class, "examen")
                     .add(Restrictions.idEq(id));
-//                    .setFetchMode("examen.reactivos", FetchMode.JOIN);
             
             examen = (ExamenAsignadoDTO) c.uniqueResult();
+            //Inicializa los reactivos del examen asignado obtenido
             Hibernate.initialize(examen.getReactivos());
             tx.commit();
             
@@ -425,6 +475,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
      * ingresado
      * @param examen el examen del que se quiere obtener los promedios
      * @param grupos la lista de grupos para obtener sus promedios
+     * 
      * @return una lista de objetos que contiene valores reales que representan
      * los promedios de los grupos en el examen ingresado
      */
@@ -444,6 +495,8 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             tx = s.beginTransaction();
             
             int i = 0;
+            //Por cada grupo en la lista, obtener el promedio de todos los alumnos
+            //en el examen ingresado.
             for (GrupoDTO grupo : grupos) {
                 Query q = s.createQuery(GET_PROMEDIOS_GRUPO)
                         .setEntity("grupo", grupo)
@@ -474,6 +527,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     
     /**
      * Obtiene los promedios de los 3 grados por el examen ingresado
+     * 
      * @param examen el examen del que se quiere obtener los promedios
      * @return una lista de objetos que contiene numeros reales que representan
      * los promedios por los 3 grados en el examen seleccionado.
@@ -522,6 +576,7 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
     
     /**
      * Obtiene los promedios por los dos turnos en el examen ingresado
+     * 
      * @param examen el examen del cual se quiere obtener los promedios
      * @return una lista de objetos que contiene valores reales que representan
      * los promedios de los turnos en el examen seleccionado

@@ -62,7 +62,7 @@ public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
             //Obtiene el reactivo específico a ese id, incluyendo sus opciones
             Criteria c = s.createCriteria(ReactivoDTO.class)
                     .add(Restrictions.idEq(idReactivo))
-                    .setFetchMode("opciones", FetchMode.JOIN);
+                    .setFetchMode("opcionesIncorrectas", FetchMode.JOIN);
             
             reactivo = (ReactivoDTO) c.uniqueResult();
             tx.commit();
