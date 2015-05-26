@@ -50,6 +50,14 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param apellido El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellido, Tipo tipo) {
         List<UsuarioDTO> usuarios;
 
@@ -59,6 +67,14 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param apellidoMaterno El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo) {
         List<UsuarioDTO> usuarios;
 
@@ -68,6 +84,14 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param nombre El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerUsuariosPorNombre(String nombre, Tipo tipo) {
         List<UsuarioDTO> usuarios;
 
@@ -77,6 +101,13 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios tipo alumno que concuerden con el parametro
+     *
+     * @param apellido El patron por el cual se buscaran los usuarios
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerAlumnosPorApellido(String apellido) {
         List<UsuarioDTO> usuarios;
 
@@ -86,6 +117,13 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios tipo alumno que concuerden con el parametro
+     *
+     * @param apellidoMaterno El patron por el cual se buscaran los usuarios
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerAlumnosPorApellidoM(String apellidoMaterno) {
         List<UsuarioDTO> usuarios;
 
@@ -95,6 +133,13 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios tipo alumno que concuerden con el parametro
+     *
+     * @param nombre El patron por el cual se buscaran los usuarios
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     */
     public List<UsuarioDTO> obtenerAlumnosPorNombre(String nombre) {
         List<UsuarioDTO> usuarios;
 

@@ -165,6 +165,16 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return usuario;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param apellidoPaterno El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     * 
+     * @throws RemoteException En caso de que ocurra un error remoto
+     */
     @Override
     public List<UsuarioDTO> obtenerUsuariosPorApellido(String apellidoPaterno,
             Tipo tipo) throws RemoteException {
@@ -247,6 +257,16 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param apellidoMaterno El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     * 
+     * @throws RemoteException En caso de que ocurra un error remoto
+     */
     @Override
     public List<UsuarioDTO> obtenerUsuariosPorApellidoM(String apellidoMaterno, Tipo tipo) throws RemoteException {
         List<UsuarioDTO> usuarios;
@@ -257,6 +277,16 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
         return usuarios;
     }
 
+    /**
+     * Obtiene todos los usuarios que concuerden con los parametros
+     *
+     * @param nombre El patron por el cual se buscaran los usuarios
+     * @param tipo el tipo de usuario a buscar
+     * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
+     * null en caso de que ningun usuario concuerde
+     * 
+     * @throws RemoteException En caso de que ocurra un error remoto
+     */
     @Override
     public List<UsuarioDTO> obtenerUsuariosPorNombre(String nombre, Tipo tipo) throws RemoteException {
         List<UsuarioDTO> usuarios;
