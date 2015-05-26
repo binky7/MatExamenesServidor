@@ -8,7 +8,6 @@ package modelo.dao;
 import java.util.List;
 import modelo.dto.CursoDTO;
 import modelo.dto.TemaDTO;
-import modelo.dto.UsuarioDTO;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
