@@ -23,7 +23,9 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import remoteAccess.InicioServidor;
+import vista.controlador.Validador;
 
 /**
  * JFrame que mostrara la interfaz gráfica del servidor.
@@ -103,6 +105,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtfPuerto.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtfPuerto.setText("9000");
         txtfPuerto.setPreferredSize(new java.awt.Dimension(100, 30));
+        txtfPuerto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtfPuertoKeyTyped(evt);
+            }
+        });
 
         lblTitulo.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -133,13 +140,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(txtfPuerto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(151, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblInicioServidor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblInicioServidor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,11 +176,26 @@ public class FrmPrincipal extends javax.swing.JFrame {
      * @param evt Objeto que contiene información del evento.
      */
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        servidor.iniciarServidor(Integer.parseInt(txtfPuerto.getText()));
-        btnIniciar.setEnabled(false);
-        lblInicioServidor.setVisible(true);
-        txtfPuerto.setEnabled(false);
+        int puerto;
+        try {
+            puerto = Integer.parseInt(txtfPuerto.getText());
+            servidor.iniciarServidor(puerto);
+            btnIniciar.setEnabled(false);
+            lblInicioServidor.setVisible(true);
+            txtfPuerto.setEnabled(false);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Ingresar solo números",
+                    "Inicio servidor", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void txtfPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfPuertoKeyTyped
+        char tecla = evt.getKeyChar();
+        if(!Validador.esNumero(String.valueOf(tecla))){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtfPuertoKeyTyped
 
     /**
      * @param args the command line arguments

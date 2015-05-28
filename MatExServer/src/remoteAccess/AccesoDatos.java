@@ -764,4 +764,9 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     public boolean verificarExistencia(TemaDTO tema) throws RemoteException {
         return FACADEServiceLocator.getTemaFACADE().verificarExistencia(tema);
     }
+
+    @Override
+    public long obtenerTiempoServidor() throws RemoteException {
+        return FACADEServiceLocator.getExamenAsignadoFACADE().obtenerTiempoSistema();
+    }
 }

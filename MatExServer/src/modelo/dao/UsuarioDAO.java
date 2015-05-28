@@ -26,6 +26,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import modelo.dto.UsuarioDTO.Tipo;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 
 /**
  * Esta clase es un dao de UsuarioDTO para los métodos específicos a este objeto
@@ -88,6 +89,7 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
                                     Restrictions.like("apellidoPaterno", "%" + nombre + "%"),
                                     Restrictions.like("apellidoMaterno", "%" + nombre + "%"),
                                     Restrictions.like("nombre", "%" + nombre + "%")))
+                    .addOrder(Order.asc("apellidoPaterno"))
                     .list();
 
             tx.commit();

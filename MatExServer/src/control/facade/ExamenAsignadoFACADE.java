@@ -304,4 +304,8 @@ public class ExamenAsignadoFACADE extends BaseFACADE<ExamenAsignadoDTO, ExamenAs
 
         return tabla;
     }
+    
+    public long obtenerTiempoSistema(){
+        return DAOServiceLocator.getExamenAsignadoDAO().getTiempoActual();
+    }
 }
