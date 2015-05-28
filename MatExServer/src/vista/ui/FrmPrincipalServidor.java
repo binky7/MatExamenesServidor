@@ -121,7 +121,7 @@ public class FrmPrincipalServidor extends javax.swing.JFrame {
         btnIniciar.setPreferredSize(new java.awt.Dimension(65, 30));
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarActionPerformed(evt);
+                iniciarServidor(evt);
             }
         });
 
@@ -175,7 +175,7 @@ public class FrmPrincipalServidor extends javax.swing.JFrame {
      *
      * @param evt Objeto que contiene información del evento.
      */
-    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+    private void iniciarServidor(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarServidor
         int puerto;
         try {
             puerto = Integer.parseInt(txtfPuerto.getText());
@@ -188,7 +188,7 @@ public class FrmPrincipalServidor extends javax.swing.JFrame {
                     "Inicio servidor", JOptionPane.WARNING_MESSAGE);
         }
 
-    }//GEN-LAST:event_btnIniciarActionPerformed
+    }//GEN-LAST:event_iniciarServidor
 
     private void txtfPuertoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtfPuertoKeyTyped
         char tecla = evt.getKeyChar();
