@@ -17,7 +17,7 @@
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-package vista;
+package vista.ui;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import vista.controlador.Validador;
  * @author Alfredo Rouse Madrigal
  * @version 1 27 Mayo 2015
  */
-public class FrmPrincipal extends javax.swing.JFrame {
+public class FrmPrincipalServidor extends javax.swing.JFrame {
 
     /**
      * @see remoteAccess.InicioServidor
@@ -65,7 +65,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     /**
      * Craa un nuevo FrmPrincipal
      */
-    public FrmPrincipal() {
+    public FrmPrincipalServidor() {
         initComponents();
         servidor = new InicioServidor();
         lblInicioServidor.setVisible(false);
@@ -214,20 +214,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPrincipalServidor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmPrincipal().setVisible(true);
+                new FrmPrincipalServidor().setVisible(true);
             }
         });
     }
