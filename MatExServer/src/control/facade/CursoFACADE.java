@@ -46,6 +46,22 @@ public class CursoFACADE extends BaseFACADE<CursoDTO, Integer> {
     }
 
     /**
+     * Obtiene los temas de un curso dependiendo del bloque seleccionado.
+     *
+     * @param curso El curso seleccionado.
+     * @param bloque El bloque seleccionado.
+     * @return Regresa los temas del curso seleccionado dependiendo del
+     * bloque seleccionado. Regresa null si el curso no tiene temas del bloque
+     * seleccionado.
+     */
+    public List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso, int bloque) {
+        List<TemaDTO> listaTemas;
+
+        listaTemas = DAOServiceLocator.getCursoDAO().obtenerTemas(curso, bloque);
+        return listaTemas;
+    }
+
+    /**
      * Verifica si el nombre del curso ingresado ya existe en la base de datos.
      *
      * @param curso El curso del cual se quiere verificar su existencia.
@@ -68,4 +84,7 @@ public class CursoFACADE extends BaseFACADE<CursoDTO, Integer> {
         return DAOServiceLocator.getCursoDAO().obtenerPorTema(tema);
     }
 
+    public CursoDTO obtenerCurso(Integer id) {
+        return DAOServiceLocator.getCursoDAO().obtener(id);
+    }
 }

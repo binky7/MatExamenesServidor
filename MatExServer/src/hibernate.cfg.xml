@@ -30,5 +30,6 @@
     <mapping class="modelo.dto.GrupoDTO"/>
     <mapping class="modelo.dto.ReactivoAsignadoDTO"/>
     <mapping class="modelo.dto.ExamenAsignadoDTO"/>
+    <mapping class="modelo.dto.CursoTemaDTO"/>
   </session-factory>
 </hibernate-configuration>

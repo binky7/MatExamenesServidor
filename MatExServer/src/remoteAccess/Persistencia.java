@@ -105,6 +105,8 @@ public interface Persistencia extends Remote {
             throws RemoteException;
 
     List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso) throws RemoteException;
+    
+    List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso, int bloque) throws RemoteException;
 
     boolean verificarExistencia(CursoDTO curso) throws RemoteException;
 

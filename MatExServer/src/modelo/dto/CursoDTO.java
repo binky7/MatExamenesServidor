@@ -22,6 +22,7 @@ package modelo.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class CursoDTO implements Serializable, Comparable<CursoDTO> {
     /**
      * La lista de temas del curso.
      */
-    private List<TemaDTO> temas = new ArrayList<TemaDTO>();
+    private List<CursoTemaDTO> temas = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,23 +87,23 @@ public class CursoDTO implements Serializable, Comparable<CursoDTO> {
         this.nombre = nombre;
     }
 
-    @OneToMany
-    @JoinTable(
-            name = "curso_tema",
-            joinColumns = @JoinColumn(name = "idCurso"),
-            inverseJoinColumns = @JoinColumn(name = "idTema")
+    @OneToMany(
+            mappedBy = "curso",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    
     )
     /**
      * @return La lista de temas del curso.
      */
-    public List<TemaDTO> getTemas() {
+    public List<CursoTemaDTO> getTemas() {
         return temas;
     }
 
     /**
      * @param temas La lista de temas del curso a guardar.
      */
-    public void setTemas(List<TemaDTO> temas) {
+    public void setTemas(List<CursoTemaDTO> temas) {
         this.temas = temas;
     }
 
@@ -145,5 +146,18 @@ public class CursoDTO implements Serializable, Comparable<CursoDTO> {
     public int compareTo(CursoDTO o) {
         return nombre.compareTo(o.nombre);
     }
-
+    
+    /**
+     * Este método sirve para agregar correctamente un tema a un curso, 
+     * mediante la correcta creación de sus relaciones.
+     * Todos los temas que se deseen asociar a este curso deben
+     * ser agregados por medio de este método.
+     * 
+     * @param tema el objeto CursoTemaDTO que se desea asociar al
+     * curso.
+     */
+    public void addTema(CursoTemaDTO tema) {
+        tema.setCurso(this);
+        temas.add(tema);
+    }
 }
