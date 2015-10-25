@@ -20,9 +20,11 @@ import org.hibernate.criterion.Restrictions;
 public class TemaDAO extends BaseDAO<TemaDTO, Integer> {
 
     //Obtener todos los temas que no pertenecen a un curso....
-    private final String GET_TEMAS_SIN_ASIGNAR = "SELECT DISTINCT t2 FROM "
-            + "TemaDTO AS t2 WHERE t2 NOT IN"
-            + "(SELECT ELEMENTS(c.temas) FROM CursoDTO AS c)";
+    private final String GET_TEMAS_SIN_ASIGNAR = "SELECT * FROM tema WHERE "
+            + "id NOT IN(SELECT idTema FROM curso_tema)";
+//    private final String GET_TEMAS_SIN_ASIGNAR = "SELECT DISTINCT t2 FROM "
+//            + "TemaDTO AS t2 WHERE t2 NOT IN"
+//            + "(SELECT ELEMENTS(c.temas) FROM CursoDTO AS c)";
 
     /**
      * Obtiene los temas que no pertenecen a ningún curso.
@@ -46,7 +48,7 @@ public class TemaDAO extends BaseDAO<TemaDTO, Integer> {
             //Obtiene todos los temas que no tengan curso
             //Todo query, modificación, eliminación e inserción debe estar 
             //enmedio de este código
-            Query q = s.createQuery(GET_TEMAS_SIN_ASIGNAR);
+            Query q = s.createSQLQuery(GET_TEMAS_SIN_ASIGNAR).addEntity(TemaDTO.class);
 
             temas = q.list();
 
