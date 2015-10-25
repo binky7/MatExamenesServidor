@@ -162,4 +162,14 @@ public class UsuarioFACADE extends BaseFACADE<UsuarioDTO, Integer> {
         return usuario;
     }
 
+    /**
+     * Validara si el usuario se encuentra inscrito en un grupo.
+     *
+     * @param usuario El usuario a validar si existe en un grupo.
+     * @return Verdadero si el usuario esta inscrito a un grupo.<br>
+     * Falso de otra forma.
+     */
+    public boolean perteneceAGrupo(UsuarioDTO usuario) {
+        return DAOServiceLocator.getUsuarioDAO().perteneceAGrupo(usuario);
+    }
 }

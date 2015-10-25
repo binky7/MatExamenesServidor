@@ -172,7 +172,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
      * @param tipo el tipo de usuario a buscar
      * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
      * null en caso de que ningun usuario concuerde
-     * 
+     *
      * @throws RemoteException En caso de que ocurra un error remoto
      */
     @Override
@@ -264,7 +264,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
      * @param tipo el tipo de usuario a buscar
      * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
      * null en caso de que ningun usuario concuerde
-     * 
+     *
      * @throws RemoteException En caso de que ocurra un error remoto
      */
     @Override
@@ -284,7 +284,7 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
      * @param tipo el tipo de usuario a buscar
      * @return Lista de UsuarioDTO que concuerden con el nombre ingresado, o
      * null en caso de que ningun usuario concuerde
-     * 
+     *
      * @throws RemoteException En caso de que ocurra un error remoto
      */
     @Override
@@ -773,5 +773,18 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
     @Override
     public List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso, int bloque) throws RemoteException {
         return FACADEServiceLocator.getCursoFACADE().obtenerTemasDeCurso(curso, bloque);
+    }
+
+    /**
+     * Validara si el usuario se encuentra inscrito en un grupo.
+     *
+     * @param usuario El usuario a validar si existe en un grupo.
+     * @return Verdadero si el usuario esta inscrito a un grupo.<br>
+     * Falso de otra forma.
+     * @throws java.rmi.RemoteException
+     */
+    @Override
+    public boolean perteneceAGrupo(UsuarioDTO usuario) throws RemoteException {
+        return FACADEServiceLocator.getUsuarioFACADE().perteneceAGrupo(usuario);
     }
 }

@@ -105,7 +105,7 @@ public interface Persistencia extends Remote {
             throws RemoteException;
 
     List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso) throws RemoteException;
-    
+
     List<TemaDTO> obtenerTemasDeCurso(CursoDTO curso, int bloque) throws RemoteException;
 
     boolean verificarExistencia(CursoDTO curso) throws RemoteException;
@@ -576,4 +576,6 @@ public interface Persistencia extends Remote {
     boolean verificarExistencia(TemaDTO tema) throws RemoteException;
 
     long obtenerTiempoServidor() throws RemoteException;
+
+    boolean perteneceAGrupo(UsuarioDTO usuario) throws RemoteException;
 }

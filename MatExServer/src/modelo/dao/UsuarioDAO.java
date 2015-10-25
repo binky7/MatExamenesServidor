@@ -65,6 +65,13 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             + "'Alumno' and a2.nombre like ?";
 
     /**
+     * Query utilizado para verificar la existencia de un usuario en un grupo.
+     */
+    private final String USUARIO_PERTENECE_A_GRUPO = "select gpo.id"
+            + " from GrupoDTO as gpo"
+            + " where :usuario in elements(gpo.alumnos)";
+
+    /**
      * Obtiene todos los usuarios que concuerden con el parametro
      *
      * @param nombre El patron por el cual se buscaran los usuarios
@@ -374,5 +381,45 @@ public class UsuarioDAO extends BaseDAO<UsuarioDTO, Integer> {
             System.out.println("Session cerrada");
         }
         return usuario;
+    }
+
+    /**
+     * Validara si el usuario se encuentra inscrito en un grupo.
+     *
+     * @param usuario El usuario a validar si existe en un grupo.
+     * @return Verdadero si el usuario esta inscrito a un grupo.<br>
+     * Falso de otra forma.
+     */
+    public boolean perteneceAGrupo(UsuarioDTO usuario) {
+        boolean ok = false;
+        Session s = getSession();
+        Transaction tx = null;
+
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+        }
+
+        try {
+            tx = s.beginTransaction();
+            Query query = s.createQuery(USUARIO_PERTENECE_A_GRUPO);
+            query.setEntity("usuario", usuario);
+            List list = query.list();
+
+            if (list.size() > 0) {
+                ok = true;
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            System.out.println(e);
+            if (tx != null) {
+                tx.rollback();
+            }
+            System.out.println("olololol");
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        return ok;
     }
 }
