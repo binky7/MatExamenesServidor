@@ -20,10 +20,12 @@
 package modelo.dao;
 
 import java.util.List;
+import modelo.dto.ExamenDTO;
 import modelo.dto.ReactivoDTO;
 import modelo.dto.TemaDTO;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
@@ -38,6 +40,13 @@ import org.hibernate.criterion.Restrictions;
  * @version 1 18 Mayo 2015
  */
 public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
+    
+    /**
+     * Este atributo contiene el query necesario para obtener todos los exámenes
+     * que utilicen el reactivo especificado
+     */
+    private final static String GET_EXAMENES_DE_REACTIVO = "SELECT ce.examen FROM "
+            + "ClaveExamenDTO AS ce WHERE :reactivo IN ELEMENTS(ce.reactivos)";
     
     /**
      * Obtiene el reactivo completo al que pertenece el id ingresado
@@ -122,17 +131,22 @@ public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
     }
   
     /**
-     * Elimina la lista de reactivos ingresada de la persistencia
+     * Elimina la lista de reactivos ingresada de la persistencia, siempre y
+     * cuando estos reactivos no sean referenciados por ningún examen, de lo
+     * contrario sólo se podrán eliminar aquellos reactivos que no sean
+     * referenciados por ningún examen.
      * 
      * @param reactivos la lista de ReactivoDTO que se desea eliminar
-     * @return true si la operación se realizó exitosamente, false si ocurrió
-     * un error
+     * @return true si la operación se realizó exitosamente y todos los
+     * reactivos se eliminaron o false en caso de que exista por lo menos un
+     * reactivo que no se pudo eliminar por ser referenciado por algún examen
      */
     public boolean eliminar(List<ReactivoDTO> reactivos) {
         
         Session s = getSession();
         Transaction tx = null;
         boolean ok = true;
+        int reactivosEliminados = 0;
         
         if(s == null) {
             System.out.println("Session nula, regresando null....");
@@ -142,13 +156,23 @@ public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
         try {
             tx = s.beginTransaction();
             //Eliminar uno por uno los reactivos de la lista
-            for (int i = 0; i < reactivos.size(); i++) {
-                ReactivoDTO reactivo = reactivos.get(i);
+            for (ReactivoDTO reactivo : reactivos) {
+                //Verificar si existen referencias a este reactivo antes de
+                //eliminarlo
+                List<ExamenDTO> referencias = obtenerReferencias(reactivo);
                 
-                s.delete(reactivo);
-                if(i % 20 == 0) {
-                    s.flush();
-                    s.clear();
+                if (referencias == null || referencias.isEmpty()) {
+                    s.delete(reactivo);
+                    reactivosEliminados++;
+                    
+                    //Para limpiar la memoria y que los cambios sean inmediatos
+                    if(reactivosEliminados % 20 == 0) {
+                        s.flush();
+                        s.clear();
+                    }
+                }
+                else {
+                    ok = false;
                 }
             }
             
@@ -168,5 +192,48 @@ public class ReactivoDAO extends BaseDAO<ReactivoDTO, Integer> {
         }
         
         return ok;
+    }
+    
+    /**
+     * Este método regresa una lista de exámenes, los cuales contienen en alguna
+     * de sus claves el reactivo enviado como parámetro
+     * 
+     * @param reactivo el objeto ReactivoDTO que se buscará en las claves de los
+     * exámenes
+     * @return una lista de ExamenDTO con las referencias de este reactivo, una
+     * lista vacía en caso de no existir ningua referencia o null en caso de
+     * ocurrir un error
+     */
+    private List<ExamenDTO> obtenerReferencias(ReactivoDTO reactivo) {
+        
+        Session s = getSession();
+        Transaction tx = null;
+        List<ExamenDTO> examenes;
+        
+        if(s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+            
+            Query q = s.createQuery(GET_EXAMENES_DE_REACTIVO)
+                    .setEntity("reactivo", reactivo);
+            
+            examenes = q.list();
+            
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            examenes = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+        
+        return examenes;
     }
 }

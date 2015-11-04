@@ -101,7 +101,7 @@ public class ReactivoDTO implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "nombre", nullable = false, length = 50)
+    @Column(name = "nombre", nullable = false, length = 100)
     /**
      * @return el nombre del reactivo
      */
