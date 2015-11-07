@@ -133,7 +133,7 @@ public class ExamenDTO implements Serializable {
         this.curso = curso;
     }
 
-    @Column(name = "instrucciones", nullable = false, length = 200)
+    @Column(name = "instrucciones", nullable = false, length = 350)
     /**
      * @return las instrucciones del examen
      */

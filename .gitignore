@@ -1,1 +1,4 @@
 /MatExServer/nbproject/private/
+/MatExServer/build/
+/MatExServer/src/hibernate.cfg.xml
+/MatExServer/dist/
