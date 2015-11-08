@@ -305,6 +305,33 @@ public class ExamenAsignadoFACADE extends BaseFACADE<ExamenAsignadoDTO, ExamenAs
         return tabla;
     }
     
+    /**
+     * Este método devuelve un objeto TablaEstadisticas que contiene los datos de
+     * todos los alumnos que hayan contestado el examen ingresado.
+     * 
+     * @param examen el objeto ExamenDTO del cuál se quieren obtener los alumnos
+     * con sus calificaciones
+     * 
+     * @return un objeto de tipo TablaEstadisticas o null en caso de no
+     * encontrarse datos
+     */
+    public TablaEstadisticas obtenerCalificaciones(ExamenDTO examen) {
+        TablaEstadisticas tablaCalificaciones = null;
+        
+        //Obtener matriz de datos
+        Object[][] datos = DAOServiceLocator.getExamenAsignadoDAO()
+                .obtenerCalificaciones(examen);
+        
+        if(datos != null) {
+            String[] columnas = {"Apellido Paterno", "Apellido Materno",
+                "Nombre(s)", "Grado", "Grupo", "Turno", "Calificación"};
+            
+            tablaCalificaciones = new TablaEstadisticas(columnas, datos);
+        }
+                
+        return tablaCalificaciones;
+    }
+    
     public long obtenerTiempoSistema(){
         return DAOServiceLocator.getExamenAsignadoDAO().getTiempoActual();
     }

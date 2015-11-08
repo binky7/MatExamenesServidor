@@ -616,6 +616,28 @@ public class AccesoDatos extends UnicastRemoteObject implements Persistencia {
                 .generarEstadisticasPorTurnos(examenes);
     }
 
+    
+    /**
+     * 
+     * Este método devuelve un objeto TablaEstadisticas que contiene los datos de
+     * todos los alumnos que hayan contestado el examen ingresado.
+     * 
+     * @param examen el objeto ExamenDTO del cuál se quieren obtener los alumnos
+     * con sus calificaciones
+     * 
+     * @return un objeto de tipo TablaEstadisticas o null en caso de no
+     * encontrarse datos
+     * 
+     * @throws RemoteException en caso de que ocurra un error remoto
+     */
+    @Override
+    public TablaEstadisticas obtenerCalificaciones(ExamenDTO examen)
+            throws RemoteException {
+        
+        return FACADEServiceLocator.getExamenAsignadoFACADE()
+                .obtenerCalificaciones(examen);
+    }
+    
     /**
      * Almacena la lista de objetos ExamenAsignadoDTO ingresada y la vuelve
      * persistente. En caso de que ya existiera un mismo objeto de la lista en

@@ -19,6 +19,7 @@
  */
 package modelo.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import modelo.dto.ClaveExamenDTO;
@@ -77,6 +78,19 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
             + "WHERE (g.turno = :turno AND ea.alumno IN ELEMENTS(g.alumnos)) "
             + "AND ea.examen = :examen AND ea.calificacion <> -1 GROUP BY g.turno";
 
+    /**
+     * Esta cadena es un query en hql que regresa una lista de las calificaciones
+     * de todos los alumnos con su grado, grupo y turno y su calificación en un
+     * examen determinado.
+     */
+    private static final String GET_CALIFICACIONES_EXAMEN = "SELECT ea.alumno.apellidoPaterno, "
+            + "ea.alumno.apellidoMaterno, ea.alumno.nombre, g.grado, g.nombre, "
+            + "g.turno, ea.calificacion FROM GrupoDTO AS g, ExamenAsignadoDTO AS ea "
+            + "WHERE ea.alumno IN ELEMENTS(g.alumnos) AND ea.examen = :examen "
+            + "AND ea.calificacion <> -1 ORDER BY g.grado, g.nombre, g.turno, "
+            + "ea.alumno.apellidoPaterno, ea.alumno.apellidoMaterno, ea.alumno.nombre";
+
+    
     /**
      * Inserta la lista de exámenes asignados y los vuelve persitentes
      *
@@ -631,6 +645,62 @@ public class ExamenAsignadoDAO extends BaseDAO<ExamenAsignadoDTO, ExamenAsignado
         return promedios;
     }
 
+    /**
+     * Este método sirve para obtener una tabla de datos que pueda ser utilizada
+     * para exportación, contiene a todos los alumnos que hayan contestado el
+     * examen dado con los datos del apellido Paterno, apellido Materno, nombre,
+     * grado, grupo, turno y calificación.
+     * 
+     * @param examen el objeto ExamenDTO del cuál se buscarán a los alumnos y sus
+     * calificaciones
+     * 
+     * @return una matriz de Object que contiene los datos de los alumnos que
+     * coincidieron con la búsqueda. Regresa null en caso de que no exista ningún
+     * alumno que cumpla con los criterios
+     */
+    public Object[][] obtenerCalificaciones(ExamenDTO examen) {
+        Session s = getSession();
+        Transaction tx = null;
+        List<Object[]> alumnos = new ArrayList<>();
+        Object[][] result = null;
+        
+        if (s == null) {
+            System.out.println("Session nula, regresando null....");
+            return null;
+        }
+
+        try {
+            tx = s.beginTransaction();
+
+            Query q = s.createQuery(GET_CALIFICACIONES_EXAMEN)
+                    .setEntity("examen", examen);
+            alumnos = q.list();
+            
+            tx.commit();
+
+        } catch (StaleStateException ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            alumnos = null;
+        } finally {
+            s.close();
+            System.out.println("Session cerrada");
+        }
+
+        //Transformar lista a matriz
+        if(alumnos != null && !alumnos.isEmpty()) {
+            result = new Object[alumnos.size()][];
+            alumnos.toArray(result);
+        }
+        
+        return result;
+    }
+    
     /**
      * Obtiene el tiempo actual en el servidor.
      *
